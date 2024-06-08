@@ -11,6 +11,10 @@ import { StudentView } from '@/views/pages/student';
 import { InscriptionView } from '@/views/pages/inscription';
 import { PermissionView } from '@/views/pages/permission';
 import { RoleView } from '@/views/pages/role';
+import { BranchView } from '@/views/pages/branch';
+import { SubjectView } from '@/views/pages/subject';
+import { CategoryView } from '@/views/pages/category';
+import { RoomView } from '@/views/pages/room';
 import { StaffView } from '@/views/pages/staff';
 
 export const AppRouter = () => {
@@ -27,13 +31,19 @@ export const AppRouter = () => {
       <Layout>
         <Routes>
           <Route path='/dashboardView' element={<DashboardView />} />
+          <Route path='/branchView' element={<BranchView />} />
+          <Route path='/subjectView' element={<SubjectView />} />
+          <Route path='/categoryView' element={<CategoryView />} />
+          <Route path='/roomView' element={<RoomView />} />
+          
+          
           <Route path='/inscriptionView' element={<InscriptionView />} />
           <Route path='/roleView' element={<RoleView />} />
           <Route path='/permissionView' element={<PermissionView />} />
-          <Route path='/staffView' element={<StaffView />} />
           <Route path='/teacherView' element={<TeacherView />} />
+          <Route path='/staffView' element={<StaffView />} />
           <Route path='/studentView' element={<StudentView />} />
-          
+
           <Route path='/ReportView' element={<ReportView />} />
 
           {/*  */}

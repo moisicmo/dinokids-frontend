@@ -8,21 +8,9 @@ export const menu = () => {
       icon: <Home />,
     },
     {
-      title: 'Gestion de proyectos',
+      title: 'Administración',
       permission: 'show-rent',
       group: [
-        {
-          path: '/seasonView',
-          title: 'Temporada',
-          icon: <Home />,
-          permission: 'show-halls',
-        },
-        {
-          path: '/requirementView',
-          title: 'Requisitos en avance',
-          icon: <Home />,
-          permission: 'show-halls',
-        },
         {
           path: '/inscriptionView',
           title: 'Inscripciones',
@@ -30,8 +18,26 @@ export const menu = () => {
           permission: 'show-halls',
         },
         {
-          path: '/projectView',
-          title: 'Proyectos',
+          path: '/roomView',
+          title: 'Aulas',
+          icon: <Home />,
+          permission: 'show-halls',
+        },
+        {
+          path: '/categoryView',
+          title: 'Especialidades',
+          icon: <Home />,
+          permission: 'show-halls',
+        },
+        {
+          path: '/subjectView',
+          title: 'Materias',
+          icon: <Home />,
+          permission: 'show-halls',
+        },
+        {
+          path: '/productsView',
+          title: 'Clases',
           icon: <Home />,
           permission: 'show-halls',
         },
@@ -72,6 +78,12 @@ export const menu = () => {
       permission: 'show-rent',
       group: [
         {
+          path: '/branchView',
+          title: 'Sucursales',
+          icon: <Group />,
+          permission: 'show-halls',
+        },
+        {
           path: '/staffView',
           title: 'Staff',
           icon: <Group />,
@@ -98,12 +110,6 @@ export const menu = () => {
         {
           path: '/teacherView',
           title: 'Docentes',
-          icon: <Group />,
-          permission: 'show-halls',
-        },
-        {
-          path: '/parallelView',
-          title: 'Paralelos',
           icon: <Group />,
           permission: 'show-halls',
         },

@@ -28,7 +28,7 @@ export const useCategoryStore = () => {
       const { data } = await coffeApi.post('/category/', body);
       console.log(data);
       dispatch(setAddCategory({ category: data }));
-      showSuccess('Categoria creada correctamente');
+      showSuccess('Especialidad creada correctamente');
     } catch (error) {
       throw handleError(error);
     }
@@ -38,7 +38,7 @@ export const useCategoryStore = () => {
       const { data } = await coffeApi.put(`/category/${id}`, body);
       console.log(data);
       dispatch(setUpdateCategory({ category: data }));
-      showSuccess('Categoria editada correctamente');
+      showSuccess('Especialidad editada correctamente');
     } catch (error) {
       throw handleError(error);
     }

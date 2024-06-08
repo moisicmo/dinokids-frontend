@@ -1,24 +1,25 @@
-import { SeasonModel, StaffModel, StudentModel } from ".";
+import { BranchModel, StaffModel, StudentModel, SubjectModel } from ".";
 
 export interface InscriptionModel {
   id: number;
   total: number;
-  amountDelivered: number;
-  returnedAmount: number;
   url: string;
   student:StudentModel;
   staff:StaffModel;
-  season:SeasonModel;
+  branch: BranchModel;
+  subject: SubjectModel;
 }
 
 export interface FormInscriptionModel {
-  amountDelivered: number;
   student:StudentModel|null;
+  branch:BranchModel|null;
+  subject:SubjectModel|null;
 }
 
 export interface FormInscriptionValidations {
-  amountDelivered: [(value: number) => boolean, string];
   student: [(value: StudentModel) => boolean, string];
+  branch: [(value: BranchModel) => boolean, string];
+  subject: [(value: SubjectModel) => boolean, string];
 }
 
 

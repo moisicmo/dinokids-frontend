@@ -1,21 +1,21 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useTeacherStore } from '@/hooks';
-import { TeacherModel } from "@/models";
+import { useBranchOfficeStore } from "@/hooks";
+import { BranchModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 
 interface tableProps {
-  handleEdit?: (season: TeacherModel) => void;
+  handleEdit?: (branchOffice: BranchModel) => void;
   limitInit?: number;
   stateSelect?: boolean;
-  itemSelect?: (season: TeacherModel) => void;
+  itemSelect?: (branchOffice: BranchModel) => void;
   items?: any[];
 }
 
 
-export const TeacherTable = (props: tableProps) => {
+export const BranchTable = (props: tableProps) => {
   const {
     stateSelect = false,
     handleEdit,
@@ -24,34 +24,32 @@ export const TeacherTable = (props: tableProps) => {
     items = [],
   } = props;
 
-  const { teachers = [], getTeachers, deleteTeacher } = useTeacherStore();
+  const { branchOffices = [], getBranchOffices, deleteBranchOffice } = useBranchOfficeStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
-  const [customerList, setCustomerList] = useState<TeacherModel[]>([]);
+  const [warehouseList, setWarehouseList] = useState<BranchModel[]>([]);
   const [query, setQuery] = useState<string>('');
 
-
   useEffect(() => {
-    getTeachers()
+    getBranchOffices()
   }, []);
 
   useEffect(() => {
-    const filtered = teachers.filter((e: TeacherModel) =>
+    const filtered = branchOffices.filter((e: BranchModel) =>
       e.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
-      query != '' ? filtered : teachers,
+      query != '' ? filtered : branchOffices,
       page,
       rowsPerPage
     );
-    setCustomerList(newList)
-  }, [teachers, page, rowsPerPage, query])
-
+    setWarehouseList(newList)
+  }, [branchOffices, page, rowsPerPage, query])
 
   return (
     <Stack sx={{ paddingRight: '10px' }}>
       <ComponentSearch
-        title="Buscar Docente"
+        title="Buscar Sucursal"
         search={setQuery}
       />
       <TableContainer>
@@ -59,30 +57,28 @@ export const TeacherTable = (props: tableProps) => {
           <TableHead>
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
               {stateSelect && <TableCell />}
-              <TableCell sx={{ fontWeight: 'bold' }}>Carnet</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Apellido</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Correo</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Dirección</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Teléfono</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
-            {customerList.map((teacher: TeacherModel) => {
-              const isSelected = items.includes(teacher.id);
+            {warehouseList.map((branchOffice: BranchModel) => {
+              const isSelected = items.includes(branchOffice.id);
               return (
-                <TableRow key={teacher.id} >
+                <TableRow key={branchOffice.id} >
                   {
                     stateSelect && <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
-                        onChange={() => itemSelect!(teacher)}
+                        onChange={() => itemSelect!(branchOffice)}
                       />
                     </TableCell>
                   }
-                  <TableCell>{teacher.ci}</TableCell>
-                  <TableCell>{teacher.name}</TableCell>
-                  <TableCell>{teacher.lastName}</TableCell>
-                  <TableCell>{teacher.email}</TableCell>
+                  <TableCell>{branchOffice.name}</TableCell>
+                  <TableCell>{branchOffice.address}</TableCell>
+                  <TableCell>{branchOffice.phone}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack
@@ -90,10 +86,10 @@ export const TeacherTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(teacher)} >
+                        <IconButton onClick={() => handleEdit!(branchOffice)} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteTeacher(teacher.id)} >
+                        <IconButton onClick={() => deleteBranchOffice(branchOffice.id)} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>
@@ -106,7 +102,7 @@ export const TeacherTable = (props: tableProps) => {
         </Table>
       </TableContainer>
       <ComponentTablePagination
-        total={teachers.length}
+        total={branchOffices.length}
         onPageChange={(value) => setPage(value)}
         onRowsPerPageChange={(value) => setRowsPerPage(value)}
         page={page}

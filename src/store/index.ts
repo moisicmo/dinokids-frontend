@@ -7,5 +7,7 @@ export * from './permission/permissionSlice';
 export * from './role/roleSlice';
 export * from './category/categorySlice';
 export * from './subject/subjectSlice';
+export * from './branchOffice/branchOfficeSlice';
+export * from './room/roomSlice';
 
 export * from './store';

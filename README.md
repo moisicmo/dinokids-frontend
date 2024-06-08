@@ -3,8 +3,6 @@
 
 # Project DINOKIDS FRONTEND  ReactJS + TypeScript + MUI + Redux + VITE
 
-Este proyecto esta desarrollado para la carrera de Ingeniería de Sistemas - Universidad Privada Franz Tamayo - La Paz 
-
 
 ## Instalación
 

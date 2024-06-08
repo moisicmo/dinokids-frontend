@@ -1,15 +1,16 @@
-import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
+import { ComponentSearch, ComponentTablePagination } from "@/components";
 import { applyPagination } from "@/utils/applyPagination";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { TypeProjectModel } from "@/models";
+import { CategoryModel } from "@/models";
 import { useCategoryStore } from "@/hooks";
 import { CategoryCreate } from ".";
 
 interface tableProps {
+  handleEdit?: (category: CategoryModel) => void;
   limitInit?: number;
-  itemSelect?: (customer: TypeProjectModel) => void;
+  itemSelect?: (category: CategoryModel) => void;
   items?: any[];
   stateSelect?: boolean;
 }
@@ -25,9 +26,9 @@ export const CategoryTable = (props: tableProps) => {
   const { categories = [], getCategories, deleteCategory } = useCategoryStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
-  const [stageList, setCategoryList] = useState<TypeProjectModel[]>([]);
+  const [stageList, setCategoryList] = useState<CategoryModel[]>([]);
   const [openDialog, setopenDialog] = useState(false);
-  const [itemEdit, setItemEdit] = useState<TypeProjectModel | null>(null);
+  const [itemEdit, setItemEdit] = useState<CategoryModel | null>(null);
   const [query, setQuery] = useState<string>('');
   /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
   const handleDialog = useCallback((value: boolean) => {
@@ -40,7 +41,7 @@ export const CategoryTable = (props: tableProps) => {
   }, []);
 
   useEffect(() => {
-    const filtered = categories.filter((e: TypeProjectModel) =>
+    const filtered = categories.filter((e: CategoryModel) =>
       e.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
@@ -62,10 +63,6 @@ export const CategoryTable = (props: tableProps) => {
           title="Buscar Categoria"
           search={setQuery}
         />
-        <ComponentButton
-          text="Crear Categoria"
-          onClick={() => handleDialog(true)}
-        />
       </Stack>
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">
@@ -77,7 +74,7 @@ export const CategoryTable = (props: tableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stageList.map((stage: TypeProjectModel) => {
+            {stageList.map((stage: CategoryModel) => {
               const isSelected = items.includes(stage.id);
               return (
                 <TableRow key={stage.id} >

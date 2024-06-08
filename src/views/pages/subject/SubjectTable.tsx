@@ -1,5 +1,4 @@
 import {
-  ComponentButton,
   ComponentSearch,
   ComponentTablePagination,
 } from '@/components';
@@ -22,8 +21,9 @@ import { useSubjectStore } from '@/hooks';
 import { SubjectCreate } from '.';
 
 interface tableProps {
+  handleEdit?: (subject: SubjectModel) => void;
   limitInit?: number;
-  itemSelect?: (customer: SubjectModel) => void;
+  itemSelect?: (subject: SubjectModel) => void;
   items?: any[];
   stateSelect?: boolean;
 }
@@ -64,10 +64,6 @@ export const SubjectTable = (props: tableProps) => {
     <>
       <Stack direction="row" justifyContent="space-between">
         <ComponentSearch title="Buscar Materia" search={setQuery} />
-        <ComponentButton
-          text="Crear Materia"
-          onClick={() => handleDialog(true)}
-        />
       </Stack>
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">
@@ -76,7 +72,7 @@ export const SubjectTable = (props: tableProps) => {
               {stateSelect && <TableCell />}
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Semestre</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Especialidad</TableCell>
               {!stateSelect && (
                 <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>
               )}
@@ -97,7 +93,7 @@ export const SubjectTable = (props: tableProps) => {
                   )}
                   <TableCell>{stage.name}</TableCell>
                   <TableCell>{stage.code}</TableCell>
-                  <TableCell>{stage.semester}</TableCell>
+                  <TableCell>{stage.category.name}</TableCell>
 
                   {!stateSelect && (
                     <TableCell align="right">

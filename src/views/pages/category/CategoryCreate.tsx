@@ -1,7 +1,7 @@
 import { ComponentInput } from '@/components';
 import { useCategoryStore, useForm } from '@/hooks';
 import {
-  TypeProjectModel,
+  CategoryModel,
   FormCategoryModel,
   FormCategoryValidations,
 } from '@/models';
@@ -17,7 +17,7 @@ import { FormEvent, useState } from 'react';
 interface createProps {
   open: boolean;
   handleClose: () => void;
-  item: TypeProjectModel | null;
+  item: CategoryModel | null;
 }
 
 const formFields: FormCategoryModel = {
@@ -59,7 +59,7 @@ export const CategoryCreate = (props: createProps) => {
     <>
       <Dialog open={open} onClose={handleClose} style={{ zIndex: 9998 }}>
         <DialogTitle>
-          {item == null ? 'Nueva Categoria' : `${item.name}`}
+          {item == null ? 'Nueva Especialidad' : `${item.name}`}
         </DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>

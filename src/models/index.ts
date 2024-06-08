@@ -1,6 +1,4 @@
-export * from './requirement';
-export * from './stage';
-export * from './season';
+export * from './branch';
 export * from './user';
 export * from './staff';
 export * from './teacher';
@@ -8,8 +6,6 @@ export * from './student';
 export * from './permission';
 export * from './role';
 export * from './subject';
-export * from './parallel';
 export * from './category';
-export * from './typeProject';
 export * from './inscription';
-export * from './project';
+export * from './room';

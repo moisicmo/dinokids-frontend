@@ -1,88 +1,85 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useTeacherStore } from '@/hooks';
-import { TeacherModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { CategoryModel, RoomModel } from "@/models";
+import { useRoomStore } from "@/hooks";
 
 interface tableProps {
-  handleEdit?: (season: TeacherModel) => void;
+  handleEdit?: (category: CategoryModel) => void;
   limitInit?: number;
-  stateSelect?: boolean;
-  itemSelect?: (season: TeacherModel) => void;
+  itemSelect?: (category: CategoryModel) => void;
   items?: any[];
+  stateSelect?: boolean;
 }
 
-
-export const TeacherTable = (props: tableProps) => {
+export const RoomTable = (props: tableProps) => {
   const {
-    stateSelect = false,
-    handleEdit,
     itemSelect,
     limitInit = 10,
     items = [],
+    stateSelect,
   } = props;
 
-  const { teachers = [], getTeachers, deleteTeacher } = useTeacherStore();
+  const { rooms = [], getRooms, deleteRoom } = useRoomStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
-  const [customerList, setCustomerList] = useState<TeacherModel[]>([]);
+  const [stageList, setCategoryList] = useState<RoomModel[]>([]);
   const [query, setQuery] = useState<string>('');
 
-
   useEffect(() => {
-    getTeachers()
+    getRooms()
   }, []);
 
   useEffect(() => {
-    const filtered = teachers.filter((e: TeacherModel) =>
+    const filtered = rooms.filter((e: CategoryModel) =>
       e.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
-      query != '' ? filtered : teachers,
+      query != '' ? filtered : rooms,
       page,
       rowsPerPage
     );
-    setCustomerList(newList)
-  }, [teachers, page, rowsPerPage, query])
+    setCategoryList(newList)
+  }, [rooms, page, rowsPerPage, query])
 
 
   return (
-    <Stack sx={{ paddingRight: '10px' }}>
-      <ComponentSearch
-        title="Buscar Docente"
-        search={setQuery}
-      />
+    <>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+      >
+        <ComponentSearch
+          title="Buscar Categoria"
+          search={setQuery}
+        />
+      </Stack>
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">
           <TableHead>
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
               {stateSelect && <TableCell />}
-              <TableCell sx={{ fontWeight: 'bold' }}>Carnet</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Apellido</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Correo</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
-            {customerList.map((teacher: TeacherModel) => {
-              const isSelected = items.includes(teacher.id);
+            {stageList.map((stage: RoomModel) => {
+              const isSelected = items.includes(stage.id);
               return (
-                <TableRow key={teacher.id} >
+                <TableRow key={stage.id} >
                   {
                     stateSelect && <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
-                        onChange={() => itemSelect!(teacher)}
+                        onChange={() => itemSelect!(stage)}
                       />
                     </TableCell>
                   }
-                  <TableCell>{teacher.ci}</TableCell>
-                  <TableCell>{teacher.name}</TableCell>
-                  <TableCell>{teacher.lastName}</TableCell>
-                  <TableCell>{teacher.email}</TableCell>
+                  <TableCell>{stage.name}</TableCell>
+
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack
@@ -90,10 +87,10 @@ export const TeacherTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(teacher)} >
+                        <IconButton onClick={() => {}} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteTeacher(teacher.id)} >
+                        <IconButton onClick={() => deleteRoom(stage.id)} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>
@@ -106,12 +103,12 @@ export const TeacherTable = (props: tableProps) => {
         </Table>
       </TableContainer>
       <ComponentTablePagination
-        total={teachers.length}
+        total={rooms.length}
         onPageChange={(value) => setPage(value)}
         onRowsPerPageChange={(value) => setRowsPerPage(value)}
         page={page}
         limit={rowsPerPage}
       />
-    </Stack>
+    </>
   );
 }

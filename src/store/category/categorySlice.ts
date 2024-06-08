@@ -1,10 +1,10 @@
-import { TypeProjectModel } from '@/models';
+import { CategoryModel } from '@/models';
 import { createSlice } from '@reduxjs/toolkit';
 
 export const categorySlice = createSlice({
   name: 'category',
   initialState: {
-    categories: [] as TypeProjectModel[],
+    categories: [] as CategoryModel[],
   },
   reducers: {
     setCategories: (state, action) => {

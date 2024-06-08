@@ -1,4 +1,4 @@
-import { ComponentInput } from '@/components';
+import { ComponentInput, ComponentSelect, ModalSelectComponent } from '@/components';
 import { useForm, useSubjectStore } from '@/hooks';
 import {
   SubjectModel,
@@ -13,7 +13,8 @@ import {
   DialogTitle,
   Grid,
 } from '@mui/material';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
+import { CategoryTable } from '../category';
 
 interface createProps {
   open: boolean;
@@ -24,13 +25,13 @@ interface createProps {
 const formFields: FormSubjectModel = {
   name: '',
   code: '',
-  semester: 0,
+  category: null,
 };
 
 const formValidations: FormSubjectValidations = {
   name: [(value) => value.length >= 1, 'Debe ingresar el nombre'],
   code: [(value) => value.length >= 1, 'Debe ingresar el código'],
-  semester: [(value) => value != 0, 'Debe ingresar el nombre'],
+  category: [(value) => value != null, 'Debe ingresar la categoria'],
 };
 
 export const SubjectCreate = (props: createProps) => {
@@ -41,13 +42,14 @@ export const SubjectCreate = (props: createProps) => {
   const {
     name,
     code,
-    semester,
+    category,
     onInputChange,
     isFormValid,
+    onValueChange,
     onResetForm,
     nameValid,
     codeValid,
-    semesterValid,
+    categoryValid,
   } = useForm(item ?? formFields, formValidations);
 
   const sendSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -58,21 +60,47 @@ export const SubjectCreate = (props: createProps) => {
       await createSubject({
         name: name.trim(),
         code: code.trim(),
-        semester: parseInt(semester.trim()),
+        categoryId: category.id
       });
     } else {
       await updateSubject(item.id, {
         name: name.trim(),
         code: code.trim(),
-        semester: parseInt(semester.trim()),
+        categoryId: category.id
       });
     }
     handleClose();
     onResetForm();
   };
-
+  //modal category
+  const [modalCategory, setModalCategory] = useState(false);
+  const handleModalCategory = useCallback((value: boolean) => {
+    setModalCategory(value);
+  }, []);
   return (
     <>
+    {/* modal category */}
+    {modalCategory && (
+      <ModalSelectComponent
+        stateSelect={true}
+        stateMultiple={false}
+        title="Especialidades:"
+        opendrawer={modalCategory}
+        handleDrawer={handleModalCategory}
+      >
+        <CategoryTable
+          stateSelect={true}
+          limitInit={5}
+          itemSelect={(v) => {
+            if (category == null || category.id != v.id) {
+              onValueChange('category', v);
+              handleModalCategory(false);
+            }
+          }}
+          items={category == null ? [] : [category.id]}
+        />
+      </ModalSelectComponent>
+    )}
       <Dialog open={open} onClose={handleClose} style={{ zIndex: 9998 }}>
         <DialogTitle>
           {item == null ? 'Nueva Materia' : `${item.name}`}
@@ -80,7 +108,7 @@ export const SubjectCreate = (props: createProps) => {
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
             <Grid container>
-              <Grid item xs={12} sm={9} sx={{ padding: '5px' }}>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="Nombre"
@@ -91,18 +119,7 @@ export const SubjectCreate = (props: createProps) => {
                   helperText={formSubmitted ? nameValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={3} sx={{ padding: '5px' }}>
-                <ComponentInput
-                  type="text"
-                  label="Semestre"
-                  name="semester"
-                  value={semester}
-                  onChange={onInputChange}
-                  error={!!semesterValid && formSubmitted}
-                  helperText={formSubmitted ? semesterValid : ''}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12} sx={{ padding: '5px' }}>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="Código"
@@ -111,6 +128,15 @@ export const SubjectCreate = (props: createProps) => {
                   onChange={onInputChange}
                   error={!!codeValid && formSubmitted}
                   helperText={formSubmitted ? codeValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} sx={{ padding: '5px' }}>
+                <ComponentSelect
+                  label={category != null ? 'Especialidad' : ''}
+                  title={category != null ? category.name : 'Especialidad'}
+                  onPressed={() => handleModalCategory(true)}
+                  error={!!categoryValid && formSubmitted}
+                  helperText={formSubmitted ? categoryValid : ''}
                 />
               </Grid>
             </Grid>

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {
   authSlice,
+  branchOfficeSlice,
   categorySlice,
   inscriptionSlice,
   permissionSlice,
   roleSlice,
+  roomSlice,
   staffSlice,
   studentSlice,
   subjectSlice,
@@ -14,6 +16,7 @@ import {
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+    branchOffices: branchOfficeSlice.reducer,
     staffs: staffSlice.reducer,
     teachers: teacherSlice.reducer,
     students: studentSlice.reducer,
@@ -22,6 +25,7 @@ export const store = configureStore({
     roles: roleSlice.reducer,
     categories: categorySlice.reducer,
     subjects: subjectSlice.reducer,
+    rooms: roomSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

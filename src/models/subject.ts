@@ -1,19 +1,20 @@
+import { CategoryModel } from ".";
 
 export interface SubjectModel {
   id: number;
   name: string;
   code: string;
-  semester: number;
+  category: CategoryModel;
 }
 
 export interface FormSubjectModel {
   name: string;
   code: string;
-  semester: number;
+  category: CategoryModel|null;
 }
 
 export interface FormSubjectValidations {
   name: [(value: string) => boolean, string];
   code: [(value: string) => boolean, string];
-  semester: [(value: number) => boolean, string];
+  category: [(value: CategoryModel) => boolean, string];
 }

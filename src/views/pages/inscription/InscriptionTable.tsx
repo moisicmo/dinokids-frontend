@@ -61,6 +61,9 @@ export const InscriptionTable = (props: tableProps) => {
               <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre y apellido</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Precio</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Sucursal</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Materia</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Especialidad</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
@@ -80,6 +83,9 @@ export const InscriptionTable = (props: tableProps) => {
                   <TableCell>{inscription.student.name}</TableCell>
                   <TableCell>{`${inscription.student.name} ${inscription.student.lastName}`}</TableCell>
                   <TableCell>{inscription.total}</TableCell>
+                  <TableCell>{inscription.branch.name}</TableCell>
+                  <TableCell>{inscription.subject.name}</TableCell>
+                  <TableCell>{inscription.subject.category.name}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack
