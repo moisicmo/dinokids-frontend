@@ -18,7 +18,7 @@ export const useRoomStore = () => {
     try {
       const { data } = await coffeApi.get('/room');
       console.log(data);
-      dispatch(setRooms({ categories: data.categories }));
+      dispatch(setRooms({ rooms: data.rooms }));
     } catch (error) {
       throw handleError(error);
     }
@@ -27,7 +27,7 @@ export const useRoomStore = () => {
     try {
       const { data } = await coffeApi.post('/room/', body);
       console.log(data);
-      dispatch(setAddRoom({ category: data }));
+      dispatch(setAddRoom({ room: data }));
       showSuccess('Aula creada correctamente');
     } catch (error) {
       throw handleError(error);
@@ -37,7 +37,7 @@ export const useRoomStore = () => {
     try {
       const { data } = await coffeApi.put(`/room/${id}`, body);
       console.log(data);
-      dispatch(setUpdateRoom({ category: data }));
+      dispatch(setUpdateRoom({ room: data }));
       showSuccess('Aula editada correctamente');
     } catch (error) {
       throw handleError(error);

@@ -1,21 +1,22 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
 import { applyPagination } from "@/utils/applyPagination";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { CategoryModel, RoomModel } from "@/models";
 import { useRoomStore } from "@/hooks";
 
 interface tableProps {
-  handleEdit?: (category: CategoryModel) => void;
+  handleEdit?: (room: RoomModel) => void;
   limitInit?: number;
-  itemSelect?: (category: CategoryModel) => void;
+  itemSelect?: (room: RoomModel) => void;
   items?: any[];
   stateSelect?: boolean;
 }
 
 export const RoomTable = (props: tableProps) => {
   const {
+    handleEdit,
     itemSelect,
     limitInit = 10,
     items = [],
@@ -66,19 +67,19 @@ export const RoomTable = (props: tableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stageList.map((stage: RoomModel) => {
-              const isSelected = items.includes(stage.id);
+            {stageList.map((room: RoomModel) => {
+              const isSelected = items.includes(room.id);
               return (
-                <TableRow key={stage.id} >
+                <TableRow key={room.id} >
                   {
                     stateSelect && <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
-                        onChange={() => itemSelect!(stage)}
-                      />
+                        onChange={() => itemSelect!(room)}
+                      /> 
                     </TableCell>
                   }
-                  <TableCell>{stage.name}</TableCell>
+                  <TableCell>{room.name}</TableCell>
 
                   {
                     !stateSelect && <TableCell align="right">
@@ -87,10 +88,10 @@ export const RoomTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => {}} >
+                        <IconButton onClick={() =>handleEdit!(room)} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteRoom(stage.id)} >
+                        <IconButton onClick={() => deleteRoom(room.id)} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>
