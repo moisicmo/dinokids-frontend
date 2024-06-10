@@ -12,6 +12,7 @@ import { InscriptionView } from '@/views/pages/inscription';
 import { PermissionView } from '@/views/pages/permission';
 import { RoleView } from '@/views/pages/role';
 import { StaffView } from '@/views/pages/staff';
+import { BranchesView } from '@/views/pages/branches'
 
 export const AppRouter = () => {
 
@@ -33,6 +34,7 @@ export const AppRouter = () => {
           <Route path='/staffView' element={<StaffView />} />
           <Route path='/teacherView' element={<TeacherView />} />
           <Route path='/studentView' element={<StudentView />} />
+          <Route path='/sucursales' element={<BranchesView />} />
           
           <Route path='/ReportView' element={<ReportView />} />
 

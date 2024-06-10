@@ -10,7 +10,9 @@ const { VITE_HOST, VITE_PORT } = env;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [react({
+    jsxRuntime: 'automatic',
+  }), tsconfigPaths()],
   build: {
     chunkSizeWarningLimit: 1600
   },

@@ -1,4 +1,4 @@
-import { Assessment, Group, Home } from '@mui/icons-material';
+import { Assessment, Group, Home, SpaceDashboard } from '@mui/icons-material';
 
 export const menu = () => {
   return [
@@ -87,6 +87,18 @@ export const menu = () => {
           path: '/PermissionView',
           title: 'Permisos',
           icon: <Group />,
+          permission: 'show-halls',
+        },
+      ],
+    },
+    {
+      title: 'Gestion De Sucursales',
+      permission: 'show-rent',
+      group: [
+        {
+          path: '/sucursales',
+          title: 'sucursales',
+          icon: <SpaceDashboard />,
           permission: 'show-halls',
         },
       ],

@@ -9,6 +9,7 @@ import {
   studentSlice,
   subjectSlice,
   teacherSlice,
+  sucursalSlice,
 } from '.';
 
 export const store = configureStore({
@@ -22,6 +23,7 @@ export const store = configureStore({
     roles: roleSlice.reducer,
     categories: categorySlice.reducer,
     subjects: subjectSlice.reducer,
+    sucursals: sucursalSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

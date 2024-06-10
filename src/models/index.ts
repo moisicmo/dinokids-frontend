@@ -13,3 +13,4 @@ export * from './category';
 export * from './typeProject';
 export * from './inscription';
 export * from './project';
+export * from './sucursal';

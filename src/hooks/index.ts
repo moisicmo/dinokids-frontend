@@ -13,3 +13,5 @@ export * from './usePermissionStore';
 export * from './useRoleStore';
 export * from './useCategoryStore';
 export * from './useSubjectStore';
+
+export * from './useSucursalStore';
