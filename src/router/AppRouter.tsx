@@ -16,6 +16,7 @@ import { SubjectView } from '@/views/pages/subject';
 import { CategoryView } from '@/views/pages/category';
 import { RoomView } from '@/views/pages/room';
 import { StaffView } from '@/views/pages/staff';
+import { MonthlyFeeView } from '@/views/pages/pay/monthlyfee';
 
 export const AppRouter = () => {
 
@@ -43,6 +44,7 @@ export const AppRouter = () => {
           <Route path='/teacherView' element={<TeacherView />} />
           <Route path='/staffView' element={<StaffView />} />
           <Route path='/studentView' element={<StudentView />} />
+          <Route path='/pagos' element={<MonthlyFeeView />} />
 
           <Route path='/ReportView' element={<ReportView />} />
 

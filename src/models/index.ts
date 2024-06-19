@@ -9,3 +9,5 @@ export * from './subject';
 export * from './category';
 export * from './inscription';
 export * from './room';
+export * from './price';
+export * from './monthlyFee';

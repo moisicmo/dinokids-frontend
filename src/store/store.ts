@@ -11,6 +11,7 @@ import {
   studentSlice,
   subjectSlice,
   teacherSlice,
+  monthlyFeeSlice,
 } from '.';
 
 export const store = configureStore({
@@ -26,6 +27,7 @@ export const store = configureStore({
     categories: categorySlice.reducer,
     subjects: subjectSlice.reducer,
     rooms: roomSlice.reducer,
+    monthlyFees: monthlyFeeSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
