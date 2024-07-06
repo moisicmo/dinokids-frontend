@@ -33,7 +33,7 @@ export const MonthlyFeeTable = (props: tableProps) => {
   useEffect(() => {
     getMonthlyFee()
   }, []);
-  console.log("monthlyFee",monthlyFees)
+  console.log("monthlyFees",monthlyFees)
 
   useEffect(() => {
     const filtered = monthlyFees.filter((e: MonthlyFeeModel) =>
@@ -57,14 +57,14 @@ export const MonthlyFeeTable = (props: tableProps) => {
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
+            <TableRow sx={{ backgroundColor: `#E2F6F0`  }}>
               {stateSelect && <TableCell />}
               <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre y apellido</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Precio</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Sucursal</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Materia</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Especialidad</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Inscripcion</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>mesualidad</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>pago Mes</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>saldo</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
@@ -72,7 +72,7 @@ export const MonthlyFeeTable = (props: tableProps) => {
             {customerList.map((monthlyfee: MonthlyFeeModel) => {
               const isSelected = items.includes(monthlyfee.id);
               return (
-                <TableRow key={monthlyfee.id} >
+                <TableRow key={monthlyfee.id}  sx={{ backgroundColor: `${monthlyfee.state==true ? '#E3EFFB' :'#FCE4E4'}`}}>
                   {
                     stateSelect && <TableCell padding="checkbox">
                       <Checkbox
@@ -81,12 +81,12 @@ export const MonthlyFeeTable = (props: tableProps) => {
                       />
                     </TableCell>
                   }
-                  <TableCell>{monthlyfee.student.user.name}</TableCell>
+                  <TableCell>{monthlyfee.student.user.id}</TableCell>
                   <TableCell>{`${monthlyfee.student.user.name} ${monthlyfee.student.user.lastName}`}</TableCell>
+                  <TableCell>{monthlyfee.totalInscription}</TableCell>
                   <TableCell>{monthlyfee.totalAmount}</TableCell>
                   <TableCell>{monthlyfee.amountPaid}</TableCell>
                   <TableCell>{monthlyfee.amountPending}</TableCell>
-                  <TableCell>{monthlyfee.state}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack

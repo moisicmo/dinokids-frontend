@@ -3,7 +3,7 @@ import { Stack, SvgIcon, Typography } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { Add } from '@mui/icons-material';
 import { MonthlyFeeModel } from '@/models';
-import { MonthlyFeeCreate } from '.';
+import { MonthlyFeeCreateInscription } from './MonthlyfeeCreateInscription';
 import { MonthlyFeeTable } from '.';
 
 export const MonthlyFeeView = () => {
@@ -36,7 +36,7 @@ export const MonthlyFeeView = () => {
         }}
       /> 
       {openDialog && (
-        <MonthlyFeeCreate
+        <MonthlyFeeCreateInscription
           open={openDialog}
           handleClose={() => handleDialog(false)}
           item={itemEdit == null ? null : { ...itemEdit }}

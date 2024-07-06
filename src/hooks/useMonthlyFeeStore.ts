@@ -44,6 +44,18 @@ export const useMonthlyFeeStore = () => {
       throw handleError(error);
     }
   };
+  const createMonthlyFeeInscription = async (body: object) => {
+    try {
+      const { data } = await coffeApi.post('/monthlyfee/inscription/', body);
+      console.log("MONTHLYFEE STORE: ",data);
+      dispatch(setAddMonthlyFee({ monthlyFee: data }));
+      // PDF
+      
+      showSuccess('Cuota de Inscripcion creado correctamente');
+    } catch (error) {
+      throw handleError(error);
+    }
+  };
   const updateMonthlyFee = async (id: number, body: object) => {
     try {
       const { data } = await coffeApi.put(`/monthlyfee/${id}`, body);
@@ -75,6 +87,7 @@ export const useMonthlyFeeStore = () => {
     //* Métodos
     getMonthlyFee,
     createMonthlyFee,
+    createMonthlyFeeInscription,
     updateMonthlyFee,
     deleteMonthlyFee,
   };
