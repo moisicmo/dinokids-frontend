@@ -9,7 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material';
 
 interface tableProps {
   open: boolean;

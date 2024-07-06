@@ -64,6 +64,7 @@ export const InscriptionCreate = (props: createProps) => {
         studentId: student.id,
         branchId: branch.id,
         subjectId: subject.id,
+        priceId:1,
       });
     } else {
       await updateInscription(item.id, {

@@ -1,20 +1,20 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useInscriptionStore } from '@/hooks';
-import { InscriptionModel } from "@/models";
+import { useMonthlyFeeStore } from '@/hooks';
+import { MonthlyFeeModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 
 interface tableProps {
-  handleEdit?: (season: InscriptionModel) => void;
+  handleEdit?: (season: MonthlyFeeModel) => void;
   limitInit?: number;
   stateSelect?: boolean;
-  itemSelect?: (season: InscriptionModel) => void;
+  itemSelect?: (season: MonthlyFeeModel) => void;
   items?: any[];
 }
 
-export const InscriptionTable = (props: tableProps) => {
+export const MonthlyFeeTable = (props: tableProps) => {
   const {
     stateSelect = false,
     handleEdit,
@@ -23,70 +23,70 @@ export const InscriptionTable = (props: tableProps) => {
     items = [],
   } = props;
 
-  const { inscriptions = [], getInscriptions, deleteInscription } = useInscriptionStore();
+  const { monthlyFees = [], getMonthlyFee, deleteMonthlyFee } = useMonthlyFeeStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
-  const [customerList, setCustomerList] = useState<InscriptionModel[]>([]);
+  const [customerList, setCustomerList] = useState<MonthlyFeeModel[]>([]);
   const [query, setQuery] = useState<string>('');
 
 
   useEffect(() => {
-    getInscriptions()
+    getMonthlyFee()
   }, []);
+  console.log("monthlyFees",monthlyFees)
 
-  console.log("inscriptions",inscriptions)
   useEffect(() => {
-    const filtered = inscriptions.filter((e: InscriptionModel) =>
-      e.student.name.toLowerCase().includes(query.toLowerCase())
+    const filtered = monthlyFees.filter((e: MonthlyFeeModel) =>
+      e.student.user.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
-      query != '' ? filtered : inscriptions,
+      query != '' ? filtered : monthlyFees,
       page,
       rowsPerPage
     );
     setCustomerList(newList)
-  }, [inscriptions, page, rowsPerPage, query])
+  }, [monthlyFees, page, rowsPerPage, query])
 
 
   return (
     <Stack sx={{ paddingRight: '10px' }}>
       <ComponentSearch
-        title="Buscar Inscripción"
+        title="Buscar Pagos Cuota Mensual  "
         search={setQuery}
       />
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
+            <TableRow sx={{ backgroundColor: `#E2F6F0`  }}>
               {stateSelect && <TableCell />}
               <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre y apellido</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Precio</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Sucursal</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Materia</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Especialidad</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Inscripcion</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>mesualidad</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>pago Mes</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>saldo</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
-            {customerList.map((inscription: InscriptionModel) => {
-              const isSelected = items.includes(inscription.id);
+            {customerList.map((monthlyfee: MonthlyFeeModel) => {
+              const isSelected = items.includes(monthlyfee.id);
               return (
-                <TableRow key={inscription.id} >
+                <TableRow key={monthlyfee.id}  sx={{ backgroundColor: `${monthlyfee.state==true ? '#E3EFFB' :'#FCE4E4'}`}}>
                   {
                     stateSelect && <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
-                        onChange={() => itemSelect!(inscription)}
+                        onChange={() => itemSelect!(monthlyfee)}
                       />
                     </TableCell>
                   }
-                  <TableCell>{inscription.student.name}</TableCell>
-                  <TableCell>{`${inscription.student.name} ${inscription.student.lastName}`}</TableCell>
-                  <TableCell>{inscription.total}</TableCell>
-                  <TableCell>{inscription.branch.name}</TableCell>
-                  <TableCell>{inscription.subject.name}</TableCell>
-                  <TableCell>{inscription.subject.category.name}</TableCell>
+                  <TableCell>{monthlyfee.student.user.id}</TableCell>
+                  <TableCell>{`${monthlyfee.student.user.name} ${monthlyfee.student.user.lastName}`}</TableCell>
+                  <TableCell>{monthlyfee.totalInscription}</TableCell>
+                  <TableCell>{monthlyfee.totalAmount}</TableCell>
+                  <TableCell>{monthlyfee.amountPaid}</TableCell>
+                  <TableCell>{monthlyfee.amountPending}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack
@@ -94,10 +94,10 @@ export const InscriptionTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(inscription)} >
+                        <IconButton onClick={() => handleEdit!(monthlyfee)} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteInscription(inscription.id)} >
+                        <IconButton onClick={() => deleteMonthlyFee(monthlyfee.id)} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>
@@ -110,7 +110,7 @@ export const InscriptionTable = (props: tableProps) => {
         </Table>
       </TableContainer>
       <ComponentTablePagination
-        total={inscriptions.length}
+        total={monthlyFees.length}
         onPageChange={(value) => setPage(value)}
         onRowsPerPageChange={(value) => setRowsPerPage(value)}
         page={page}

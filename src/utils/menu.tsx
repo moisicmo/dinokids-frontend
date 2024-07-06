@@ -41,6 +41,13 @@ export const menu = () => {
           icon: <Home />,
           permission: 'show-halls',
         },
+        {
+          path: '/pagos',
+          title: 'Pagos',
+          icon: <Group />,
+          permission: 'show-halls',
+        },
+        
       ],
     },
     // {
@@ -116,6 +123,18 @@ export const menu = () => {
         {
           path: '/studentView',
           title: 'Estudiantes',
+          icon: <Group />,
+          permission: 'show-halls',
+        },
+      ],
+    },
+    {
+      title: 'Pagos',
+      permission: 'show-rent',
+      group: [
+        {
+          path: '/pagos',
+          title: 'pagos',
           icon: <Group />,
           permission: 'show-halls',
         },
