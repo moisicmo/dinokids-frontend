@@ -19,6 +19,25 @@ export interface MonthlyFeeModel {
   student:{user:StudentModel};
   inscriptions:InscriptionModel;
 }
+export interface FormMonthlyFeeModel {
+  inscriptionId: number | null;
+  studentId: number | null;
+  amountPaid: number | null;
+  commitmentDate: Date | null;
+  transactionNumber: string | null;
+  isInscription: boolean;
+  payMethod: string | null;
+}
+export interface FormMonthlyFeeValidations {
+  inscriptions: [(value: number) => boolean, string];
+  //studentId: [(value: number) => boolean, string];
+  amountPaid:[(value: number) => boolean, string];
+  commitmentDate: [(value: Date) => boolean, string];
+  transactionNumber: [(value: string) => boolean, string];
+  payMethod: [(value: string) => boolean, string];
+}
+
+// inscriptions
 export interface MonthlyFeeModelInscription {
   id : number;
   inscriptionId:number;
@@ -34,6 +53,7 @@ export interface FormMonthlyFeeModelInscription {
   transactionNumber: string | null;
   payMethod: string | null;
 }
+
 
 export interface FormMonthlyFeeValidationsInscription {
   inscriptions: [(value: number) => boolean, string];

@@ -28,9 +28,9 @@ export const useMonthlyFeeStore = () => {
     try {
       const { data } = await coffeApi.post('/monthlyfee/', body);
       console.log(data);
-      dispatch(setAddMonthlyFee({ monthlyFees: data }));
+      dispatch(setAddMonthlyFee({ monthlyFee: data }));
       // PDF
-      const byteCharacters = atob(data.document.pdfBase64);
+      /* const byteCharacters = atob(data.document.pdfBase64);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -38,7 +38,7 @@ export const useMonthlyFeeStore = () => {
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
       const pdfURL = window.URL.createObjectURL(blob);
-      printJS(pdfURL);
+      printJS(pdfURL); */
       showSuccess('Cuota Mensual creado correctamente');
     } catch (error) {
       throw handleError(error);
@@ -47,7 +47,7 @@ export const useMonthlyFeeStore = () => {
   const createMonthlyFeeInscription = async (body: object) => {
     try {
       const { data } = await coffeApi.post('/monthlyfee/inscription/', body);
-      console.log("MONTHLYFEE STORE: ",data);
+      console.log("MONTHLYFEE INSCRIPTION STORE: ",data);
       dispatch(setAddMonthlyFee({ monthlyFee: data }));
       // PDF
       
