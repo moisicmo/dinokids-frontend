@@ -5,6 +5,7 @@ import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
+import InfoIcon from '@mui/icons-material/Info';
 
 interface tableProps {
   handleEdit?: (season: MonthlyFeeModel) => void;
@@ -94,12 +95,13 @@ export const MonthlyFeeTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(monthlyfee)} >
+                        {/* <IconButton onClick={() => handleEdit!(monthlyfee)} >
                           <EditOutlined color="info" />
                         </IconButton>
                         <IconButton onClick={() => deleteMonthlyFee(monthlyfee.id)} >
                           <DeleteOutline color="error" />
-                        </IconButton>
+                        </IconButton> */}
+                        <InfoIcon sx={{color:'#4000FF'}}/>
                       </Stack>
                     </TableCell>
                   }
