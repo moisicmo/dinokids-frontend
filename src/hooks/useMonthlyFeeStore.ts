@@ -28,7 +28,15 @@ export const useMonthlyFeeStore = () => {
     try {
       const { data } = await coffeApi.post('/monthlyfee/', body);
       console.log(data);
-      dispatch(setAddMonthlyFee({ monthlyFee: data }));
+      if(data.message === 'create')
+        {
+          dispatch(setAddMonthlyFee({ monthlyFee: data }))
+      showSuccess('Cuota Mensual creado correctamente');
+        }else{
+          dispatch(setUpdateMonthlyFee({ monthlyFee: data }));
+      showSuccess('Cuota Mensual creado correctamente');
+
+        }  
       // PDF
       /* const byteCharacters = atob(data.document.pdfBase64);
       const byteNumbers = new Array(byteCharacters.length);
@@ -39,7 +47,6 @@ export const useMonthlyFeeStore = () => {
       const blob = new Blob([byteArray], { type: 'application/pdf' });
       const pdfURL = window.URL.createObjectURL(blob);
       printJS(pdfURL); */
-      showSuccess('Cuota Mensual creado correctamente');
     } catch (error) {
       throw handleError(error);
     }

@@ -27,7 +27,7 @@ const formFields: FormMonthlyFeeModel = {
   studentId:null,
   amountPaid: 0,
   commitmentDate:null,
-  payMethod:'',
+  payMethod:'CASH',
   transactionNumber:'',
   isInscription:false,
 };
@@ -43,6 +43,8 @@ const formValidations: FormMonthlyFeeValidations = {
 
 export const MonthlyFeeCreateMonth = (props: createProps) => {
   const { open, handleClose, item } = props;
+
+  console.log("item createmonth:", item)
   const {
     inscriptions,
     studentId,
@@ -87,7 +89,7 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
         amountPaid: parseInt(amountPaid),
         commitmentDate: commitmentDate,
         isInscription:false,
-        payMethod: payMethod.trim(),
+        payMethod: 'CASH',
         transactionNumber: transactionNumber.trim(),
         startDate: Date.now(),
         endDate: Date.now(),
