@@ -12,6 +12,13 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  TextField,
+  Box,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormControl,
+  FormLabel,
 } from '@mui/material';
 import { FormEvent, useCallback, useState } from 'react';
 import { InscriptionTable } from '../../inscription';
@@ -110,22 +117,66 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
         <DialogTitle>
           {item == null ? 'Pago Inscripcion' : `${item.id}`}
         </DialogTitle>
+        <Grid container spacing={2}>
+        <Grid item xs={12}  sx={{ padding: '5px', margin:'10px' }}>
+                <ComponentSelect
+                  label={inscriptions != null ? 'Inscripcion' : ''}
+                  title={inscriptions != null ? inscriptions.id : 'Inscripcion'}
+                  onPressed={() => handleModalInscriptions(true)}
+                  error={!!inscriptionsValid && formSubmitted}
+                  helperText={formSubmitted ? inscriptionsValid : ''}
+                />
+              </Grid>
+              </Grid>
+        <Grid container spacing={2}>
+        {inscriptions && (<>
+        <Grid item xs={4}>
+          
+            <Box sx={{padding:'10px'}}>
+              <TextField
+              
+                disabled
+                id="outlined-disabled"
+                label="id"
+                defaultValue={inscriptions.id}
+                variant="standard"
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="nombres"
+                defaultValue={`${inscriptions.student.name} ${inscriptions.student.lastName}`}
+                variant="standard"
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="inscripcion"
+                defaultValue={`${inscriptions.price.inscription}`}
+                variant="standard"
+              />
+            </Box>
+          
+        </Grid>
+        <Grid item xs={8}>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
             <Grid container>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentInput
-                  type="number"
-                  label="amount"
-                  name="amount"
-                  value={amount}
+            <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+              <FormControl>
+                <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="CASH"
                   onChange={onInputChange}
-                  error={!!amountValid && formSubmitted}
-                  helperText={formSubmitted ? amountValid : ''}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentInput
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel value="CASH" control={<Radio />} label="Efectivo" />
+                  <FormControlLabel value="QR" control={<Radio />} label="Qr" />
+                  <FormControlLabel value="BANK" control={<Radio />} label="Banco" />
+                </RadioGroup>
+              </FormControl>
+                {/* <ComponentInput
                   type="text"
                   label="payMethod"
                   name="payMethod"
@@ -133,8 +184,20 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
                   onChange={onInputChange}
                   error={!!payMethodValid && formSubmitted}
                   helperText={formSubmitted ? payMethodValid : ''}
+                /> */}
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="number"
+                  label="amount"
+                  name="amount"
+                  value={inscriptions.price.inscription}
+                  onChange={onInputChange}
+                  error={!!amountValid && formSubmitted}
+                  helperText={formSubmitted ? amountValid : ''}
                 />
               </Grid>
+              
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
@@ -146,15 +209,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
                   helperText={formSubmitted ? transactionNumberValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentSelect
-                  label={inscriptions != null ? 'Inscripcion' : ''}
-                  title={inscriptions != null ? inscriptions.id : 'Inscripcion'}
-                  onPressed={() => handleModalInscriptions(true)}
-                  error={!!inscriptionsValid && formSubmitted}
-                  helperText={formSubmitted ? inscriptionsValid : ''}
-                />
-              </Grid>
+              
             </Grid>
           </DialogContent>
           <DialogActions>
@@ -169,6 +224,10 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
             <Button type="submit">{item == null ? 'CREAR' : 'EDITAR'}</Button>
           </DialogActions>
         </form>
+        </Grid>
+        </>)   }
+        </Grid>
+        
       </Dialog>
     </>
   );
