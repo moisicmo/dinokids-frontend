@@ -23,6 +23,9 @@ import {
 import { FormEvent, useCallback, useState } from 'react';
 import { InscriptionTable } from '../../inscription';
 
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import QrCodeIcon from '@mui/icons-material/QrCode';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 interface createProps {
   open: boolean;
   handleClose: () => void;
@@ -32,8 +35,10 @@ interface createProps {
 const formFields: FormMonthlyFeeModelInscription = {
   inscriptionId:null,
   amount: 0,
-  payMethod:'',
+  payMethod:'CASH',
   transactionNumber:'',
+  buyerName:'',
+  buyerNIT:'',
 };
 
 const formValidations: FormMonthlyFeeValidationsInscription = {
@@ -41,6 +46,10 @@ const formValidations: FormMonthlyFeeValidationsInscription = {
   amount: [(value) => value != null, 'Debe ingresar el monto'],
   payMethod: [(value) => value.length >= 1, 'Debe ingresar el methodo de pafo'],
   transactionNumber: [(value) => value.length >= 1, 'Debe ingresarel nuemro transaccion'],
+  buyerName: [(value) => value.length >= 1, 'Debe ingresar el nombre a facturar'],
+  buyerNIT: [(value) => value.length >= 1, 'Debe ingresar el NIT del cliente'],
+
+
 };
 
 export const MonthlyFeeCreateInscription = (props: createProps) => {
@@ -48,7 +57,9 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
   const {
     inscriptions,
     amount,
-    payMethod,
+    buyerName,
+    buyerNIT,
+
     transactionNumber,
     onInputChange,
     isFormValid,
@@ -56,13 +67,25 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
     onResetForm,
     inscriptionsValid,
     amountValid,
-    payMethodValid,
+    buyerNameValid,
+    buyerNITValid,
     transactionNumberValid,
   } = useForm(item ?? formFields, formValidations);
   const { createMonthlyFeeInscription, updateMonthlyFee } = useMonthlyFeeStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  const [valueradio, setValueradio] = useState('');
+
+  const handleChange:any = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValueradio((event.target as HTMLInputElement).value);
+  };
+
   const sendSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    console.log("//////// SEND SUBMIT INSCRIPTIONS MONTHLY")
+    console.log({ inscriptionsId: inscriptions.id,
+      amount: parseInt(amount),
+      payMethod: valueradio,
+      transactionNumber: transactionNumber.trim(),})
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
@@ -70,15 +93,19 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
       await createMonthlyFeeInscription({
         inscriptionsId: inscriptions.id,
         amount: parseInt(amount),
-        payMethod: payMethod.trim(),
+        payMethod: valueradio,
         transactionNumber: transactionNumber.trim(),
+        buyerNIT: buyerNIT.trim(),
+        buyerName: buyerName.trim(),
       });
     } else {
       await updateMonthlyFee(item.id, {
         inscriptionsId: inscriptions.id,
         amount: amount.trim(),
-        payMethod: payMethod.trim(),
+        payMethod: valueradio,
         transactionNumber: transactionNumber.trim(),
+        buyerNIT: buyerNIT.trim(),
+        buyerName: buyerName.trim(),
       });
     }
     handleClose();
@@ -162,18 +189,20 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
             <Grid container>
-            <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+            <Grid item xs={12} sx={{ padding: '5px' }}>
               <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                <FormLabel id="demo-radio-buttons-group-label">Forumulario</FormLabel>
                 <RadioGroup
+                 row
                   aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="CASH"
-                  onChange={onInputChange}
-                  name="radio-buttons-group"
+                  value={valueradio}
+                  onChange={handleChange}
+                  name="payMethod"
+
                 >
-                  <FormControlLabel value="CASH" control={<Radio />} label="Efectivo" />
-                  <FormControlLabel value="QR" control={<Radio />} label="Qr" />
-                  <FormControlLabel value="BANK" control={<Radio />} label="Banco" />
+                  <FormControlLabel value="CASH" control={<Radio />} label={<AttachMoneyIcon />} />
+                  <FormControlLabel value="QR" control={<Radio />} label={<QrCodeIcon />} />
+                  <FormControlLabel value="BANK" control={<Radio />} label={<AccountBalanceIcon />} />
                 </RadioGroup>
               </FormControl>
                 {/* <ComponentInput
@@ -188,10 +217,32 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
+                  type="text"
+                  label="Recibe de:"
+                  name="buyerName"
+                  value={buyerName}
+                  onChange={onInputChange}
+                  error={!!buyerNameValid && formSubmitted}
+                  helperText={formSubmitted ? buyerNameValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="NIT"
+                  name="buyerNIT"
+                  value={buyerNIT}
+                  onChange={onInputChange}
+                  error={!!buyerNITValid && formSubmitted}
+                  helperText={formSubmitted ? buyerNITValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
                   type="number"
                   label="amount"
                   name="amount"
-                  value={inscriptions.price.inscription}
+                  value={amount}
                   onChange={onInputChange}
                   error={!!amountValid && formSubmitted}
                   helperText={formSubmitted ? amountValid : ''}

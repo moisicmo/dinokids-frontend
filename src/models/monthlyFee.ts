@@ -52,6 +52,8 @@ export interface FormMonthlyFeeModelInscription {
   amount: number | null;
   transactionNumber: string | null;
   payMethod: string | null;
+  buyerNIT:string | null;
+  buyerName:string | null;
 }
 
 
@@ -60,6 +62,9 @@ export interface FormMonthlyFeeValidationsInscription {
   amount:[(value: number) => boolean, string];
   transactionNumber: [(value: string) => boolean, string];
   payMethod: [(value: string) => boolean, string];
+  buyerNIT:[(value: string) => boolean, string];
+  buyerName:[(value: string) => boolean, string];
+
 }
 
 
