@@ -23,13 +23,14 @@ interface createProps {
 
 const formFields: FormStudentModel = {
   code: '',
+  dni:'',
   name: '',
   lastName: '',
   email: '',
 };
 
 const formValidations: FormStudentValidations = {
-  code: [(value) => value.length >= 1, 'Debe ingresar el codigo de estudiante'],
+  dni: [(value) => value.length >= 1, 'Debe número de carnet'],
   name: [(value) => value.length >= 1, 'Debe ingresar el nombre'],
   lastName: [(value) => value.length >= 1, 'Debe ingresar el apellido'],
   email: [(value) => value.length >= 1, 'Debe ingresar el correo'],
@@ -38,14 +39,14 @@ const formValidations: FormStudentValidations = {
 export const StudentCreate = (props: createProps) => {
   const { open, handleClose, item } = props;
   const {
-    code,
+    dni,
     name,
     lastName,
     email,
     onInputChange,
     isFormValid,
     onResetForm,
-    codeValid,
+    dniValid,
     nameValid,
     lastNameValid,
     emailValid,
@@ -59,14 +60,14 @@ export const StudentCreate = (props: createProps) => {
     if (!isFormValid) return;
     if (item == null) {
       await createStudent({
-        code: code.trim(),
+        dni: dni.trim(),
         name: name.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
       });
     } else {
       await updateStudent(item.id, {
-        code: code.trim(),
+        dni: dni.trim(),
         name: name.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
@@ -110,12 +111,12 @@ export const StudentCreate = (props: createProps) => {
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
-                  label="Cordigo de estudiante"
-                  name="code"
-                  value={code}
+                  label="Número de carnet"
+                  name="dni"
+                  value={dni}
                   onChange={onInputChange}
-                  error={!!codeValid && formSubmitted}
-                  helperText={formSubmitted ? codeValid : ''}
+                  error={!!dniValid && formSubmitted}
+                  helperText={formSubmitted ? dniValid : ''}
                 />
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>

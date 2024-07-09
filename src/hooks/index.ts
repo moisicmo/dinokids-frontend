@@ -14,6 +14,8 @@ export * from './usePermissionStore';
 export * from './useRoleStore';
 export * from './useCategoryStore';
 export * from './useSubjectStore';
+export * from './useModuleStore';
+export * from './useClasseStore';
 export * from './useRoomStore';
 
 // pay hooks

@@ -58,6 +58,7 @@ export const StaffTable = (props: tableProps) => {
           <TableHead>
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
               {stateSelect && <TableCell />}
+              <TableCell sx={{ fontWeight: 'bold' }}>Nro. Carnet</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre y Apellido</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Correo</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Rol</TableCell>
@@ -77,6 +78,7 @@ export const StaffTable = (props: tableProps) => {
                       />
                     </TableCell>
                   }
+                  <TableCell>{staff.dni}</TableCell>
                   <TableCell>{`${staff.name} ${staff.lastName}`}</TableCell>
                   <TableCell>{staff.email}</TableCell>
                   <TableCell>{staff.name }</TableCell>

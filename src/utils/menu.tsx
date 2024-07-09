@@ -36,18 +36,17 @@ export const menu = () => {
           permission: 'show-halls',
         },
         {
-          path: '/productsView',
-          title: 'Clases',
+          path: '/moduleView',
+          title: 'Módulos',
           icon: <Home />,
           permission: 'show-halls',
         },
         {
-          path: '/pagos',
-          title: 'Pagos',
-          icon: <Group />,
+          path: '/classesView',
+          title: 'Clases',
+          icon: <Home />,
           permission: 'show-halls',
         },
-        
       ],
     },
     // {

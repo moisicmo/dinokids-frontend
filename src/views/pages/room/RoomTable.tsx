@@ -53,7 +53,7 @@ export const RoomTable = (props: tableProps) => {
         justifyContent="space-between"
       >
         <ComponentSearch
-          title="Buscar Categoria"
+          title="Buscar Aula"
           search={setQuery}
         />
       </Stack>

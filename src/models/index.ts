@@ -6,6 +6,8 @@ export * from './student';
 export * from './permission';
 export * from './role';
 export * from './subject';
+export * from './module';
+export * from './classe';
 export * from './category';
 export * from './inscription';
 export * from './room';

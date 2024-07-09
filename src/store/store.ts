@@ -12,6 +12,8 @@ import {
   subjectSlice,
   teacherSlice,
   monthlyFeeSlice,
+  moduleSlice,
+  classeSlice,
 } from '.';
 
 export const store = configureStore({
@@ -26,6 +28,8 @@ export const store = configureStore({
     roles: roleSlice.reducer,
     categories: categorySlice.reducer,
     subjects: subjectSlice.reducer,
+    classes: classeSlice.reducer,
+    modules:moduleSlice.reducer,
     rooms: roomSlice.reducer,
     monthlyFees: monthlyFeeSlice.reducer,
   },

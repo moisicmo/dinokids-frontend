@@ -10,6 +10,5 @@ export interface FormStudentModel extends FormUserModel {
 }
 
 export interface FormStudentValidations extends FormUserValidations {
-  code: [(value: string) => boolean, string];
 }
 
