@@ -1,4 +1,4 @@
-import { BranchModel, StaffModel, StudentModel, SubjectModel } from ".";
+import { BranchModel, StaffModel, StudentModel, SubjectModel,MonthlyFeeModel } from ".";
 
 export interface InscriptionModel {
   id: number;
@@ -8,6 +8,7 @@ export interface InscriptionModel {
   staff:StaffModel;
   branch: BranchModel;
   subject: SubjectModel;
+  monthlyFee: MonthlyFeeModel;
 }
 
 export interface FormInscriptionModel {

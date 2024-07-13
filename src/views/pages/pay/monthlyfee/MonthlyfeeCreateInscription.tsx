@@ -161,11 +161,17 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
           
             <Box sx={{padding:'10px'}}>
               <TextField
-              
                 disabled
                 id="outlined-disabled"
                 label="id"
                 defaultValue={inscriptions.id}
+                variant="standard"
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="DNI"
+                defaultValue={inscriptions.student.dni}
                 variant="standard"
               />
               <TextField
@@ -183,6 +189,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
                 variant="standard"
               />
             </Box>
+            
           
         </Grid>
         <Grid item xs={8}>

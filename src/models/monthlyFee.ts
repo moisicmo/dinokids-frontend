@@ -1,4 +1,4 @@
-import { StudentModel, InscriptionModel } from ".";
+import { StudentModel, InscriptionModel, MonthlyFeePaymentsModel } from ".";
 
 export interface MonthlyFeeModel {
   id : number;
@@ -18,6 +18,7 @@ export interface MonthlyFeeModel {
   payMethod: string | null;
   student:{user:StudentModel};
   inscriptions:InscriptionModel;
+  payments:MonthlyFeePaymentsModel[];
 }
 export interface FormMonthlyFeeModel {
   inscriptionId: number | null;
