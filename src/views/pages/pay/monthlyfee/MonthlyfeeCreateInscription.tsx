@@ -26,6 +26,9 @@ import { InscriptionTable } from '../../inscription';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { customAlphabet } from 'nanoid'
+const nanoid = customAlphabet('1234567890', 10)
+const transactionCashNumber = nanoid(5) 
 interface createProps {
   open: boolean;
   handleClose: () => void;
@@ -45,7 +48,6 @@ const formValidations: FormMonthlyFeeValidationsInscription = {
   inscriptions: [(value) => value != null, 'Debe ingresar el Id de inscripcion'],
   amount: [(value) => value != null, 'Debe ingresar el monto'],
   payMethod: [(value) => value.length >= 1, 'Debe ingresar el methodo de pafo'],
-  transactionNumber: [(value) => value.length >= 1, 'Debe ingresarel nuemro transaccion'],
   buyerName: [(value) => value.length >= 1, 'Debe ingresar el nombre a facturar'],
   buyerNIT: [(value) => value.length >= 1, 'Debe ingresar el NIT del cliente'],
 
@@ -74,7 +76,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
   const { createMonthlyFeeInscription, updateMonthlyFee } = useMonthlyFeeStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const [valueradio, setValueradio] = useState('');
+  const [valueradio, setValueradio] = useState('CASH');
 
   const handleChange:any = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValueradio((event.target as HTMLInputElement).value);
@@ -85,7 +87,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
     console.log({ inscriptionsId: inscriptions.id,
       amount: parseInt(amount),
       payMethod: valueradio,
-      transactionNumber: transactionNumber.trim(),})
+      transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),})
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
@@ -94,7 +96,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
         inscriptionsId: inscriptions.id,
         amount: parseInt(amount),
         payMethod: valueradio,
-        transactionNumber: transactionNumber.trim(),
+        transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),
         buyerNIT: buyerNIT.trim(),
         buyerName: buyerName.trim(),
       });
@@ -103,7 +105,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
         inscriptionsId: inscriptions.id,
         amount: amount.trim(),
         payMethod: valueradio,
-        transactionNumber: transactionNumber.trim(),
+        transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),
         buyerNIT: buyerNIT.trim(),
         buyerName: buyerName.trim(),
       });
@@ -188,6 +190,20 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
                 defaultValue={`${inscriptions.price.inscription}`}
                 variant="standard"
               />
+                <TextField
+                disabled
+                id="outlined-disabled"
+                label="Espoecialidad"
+                defaultValue={`${inscriptions.subject.category.name}`}
+                variant="standard"
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="materia"
+                defaultValue={`${inscriptions.subject.name}`}
+                variant="standard"
+              />
             </Box>
             
           
@@ -255,8 +271,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
                   helperText={formSubmitted ? amountValid : ''}
                 />
               </Grid>
-              
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+              {valueradio !== 'CASH'&&  <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="# transaccion"
@@ -266,7 +281,9 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
                   error={!!transactionNumberValid && formSubmitted}
                   helperText={formSubmitted ? transactionNumberValid : ''}
                 />
-              </Grid>
+              </Grid>}
+              
+             
               
             </Grid>
           </DialogContent>
