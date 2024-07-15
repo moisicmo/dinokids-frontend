@@ -13,3 +13,4 @@ export * from './inscription';
 export * from './room';
 export * from './price';
 export * from './monthlyFee';
+export * from './monthlyFeePaymets';

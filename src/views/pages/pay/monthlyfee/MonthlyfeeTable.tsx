@@ -2,7 +2,7 @@ import { ComponentSearch, ComponentTablePagination } from "@/components";
 import { useMonthlyFeeStore } from '@/hooks';
 import { MonthlyFeeModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+//import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 import InfoIcon from '@mui/icons-material/Info';
@@ -60,12 +60,14 @@ export const MonthlyFeeTable = (props: tableProps) => {
           <TableHead>
             <TableRow sx={{ backgroundColor: `#E2F6F0`  }}>
               {stateSelect && <TableCell />}
-              <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>FECHA</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>DNI</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre y apellido</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Inscripcion</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>mesualidad</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>pago Mes</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>saldo</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>compromiso</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
@@ -82,12 +84,16 @@ export const MonthlyFeeTable = (props: tableProps) => {
                       />
                     </TableCell>
                   }
-                  <TableCell>{monthlyfee.student.user.id}</TableCell>
+                  <TableCell>{monthlyfee.payments[0].paymentDate.toString().substring(0,10)}</TableCell>
+                  <TableCell>{monthlyfee.student.user.dni}</TableCell>
                   <TableCell>{`${monthlyfee.student.user.name} ${monthlyfee.student.user.lastName}`}</TableCell>
                   <TableCell>{monthlyfee.totalInscription}</TableCell>
                   <TableCell>{monthlyfee.totalAmount}</TableCell>
                   <TableCell>{monthlyfee.amountPaid}</TableCell>
                   <TableCell>{monthlyfee.amountPending}</TableCell>
+                  <TableCell>{monthlyfee.payments[0].commitmentDate.toString().substring(0,10)}</TableCell>
+
+                  
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack
