@@ -28,14 +28,17 @@ export interface FormMonthlyFeeModel {
   transactionNumber: string | null;
   isInscription: boolean;
   payMethod: string | null;
+  buyerName: string | null;
+  buyerNIT: string | null;
 }
 export interface FormMonthlyFeeValidations {
   inscriptions: [(value: number) => boolean, string];
   //studentId: [(value: number) => boolean, string];
   amountPaid:[(value: number) => boolean, string];
   commitmentDate: [(value: Date) => boolean, string];
-  transactionNumber: [(value: string) => boolean, string];
   payMethod: [(value: string) => boolean, string];
+  buyerName: [(value: string) => boolean, string];
+  buyerNIT: [(value: string) => boolean, string];
 }
 
 // inscriptions
