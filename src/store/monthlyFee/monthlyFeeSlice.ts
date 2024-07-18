@@ -11,7 +11,7 @@ export const monthlyFeeSlice = createSlice({
       state.monthlyFees = action.payload.monthlyFees;
     },
     setAddMonthlyFee: (state, action) => {
-      state.monthlyFees = [...state.monthlyFees, action.payload.monthlyFee];
+      state.monthlyFees = [action.payload.monthlyFee, ...state.monthlyFees];
     },
     setUpdateMonthlyFee: (state, action) => {
       state.monthlyFees = [

@@ -2,6 +2,7 @@ import {
   ComponentInput,
   ComponentSelect,
   ModalSelectComponent,
+  ComponentDate,
 } from '@/components';
 import { useForm, useMonthlyFeeStore } from '@/hooks';
 import { MonthlyFeeModel, FormMonthlyFeeModel, FormMonthlyFeeValidations, InscriptionModel } from '@/models';
@@ -29,7 +30,7 @@ import { customAlphabet } from 'nanoid'
 
 
 const nanoid = customAlphabet('1234567890', 10)
-const transactionCashNumber = nanoid(5) 
+const transactionCashNumber = nanoid(5)
 
 interface createProps {
   open: boolean;
@@ -90,7 +91,7 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
 
   const [valueradio, setValueradio] = useState('CASH');
 
-  const handleChange:any = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange: any = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValueradio((event.target as HTMLInputElement).value);
   };
 
@@ -99,16 +100,16 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
     console.log(" // // // SEND SUBMIT CREATE MONTHLYFEE ");
     console.log({
       inscriptionId: inscriptions.id,
-        studentId: inscriptions.student.id,
-        amountPaid: parseInt(amountPaid),
-        commitmentDate: commitmentDate,
-        isInscription: false,
-        payMethod: payMethod.trim(),
-        transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),
-        startDate: '2024-07-15 15:14:19.83',
-        endDate: '2024-07-15 15:14:19.83',
-        buyerNIT: buyerNIT.trim(),
-        buyerName: buyerName.trim(),
+      studentId: inscriptions.student.id,
+      amountPaid: parseInt(amountPaid),
+      commitmentDate: commitmentDate,
+      isInscription: false,
+      payMethod: payMethod.trim(),
+      transactionNumber: valueradio == 'CASH' ? transactionCashNumber : transactionNumber.trim(),
+      startDate: '2024-07-15 15:14:19.83',
+      endDate: '2024-07-15 15:14:19.83',
+      buyerNIT: buyerNIT.trim(),
+      buyerName: buyerName.trim(),
     })
     event.preventDefault();
     setFormSubmitted(true);
@@ -122,7 +123,7 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
         commitmentDate: commitmentDate,
         isInscription: false,
         payMethod: payMethod.trim(),
-        transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),
+        transactionNumber: valueradio == 'CASH' ? transactionCashNumber : transactionNumber.trim(),
         startDate: '2024-07-15 15:14:19.83',
         endDate: '2024-07-15 15:14:19.83',
         buyerNIT: buyerNIT.trim(),
@@ -136,7 +137,7 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
         commitmentDate: commitmentDate,
         isInscription: false,
         payMethod: 'CASH',
-        transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),
+        transactionNumber: valueradio == 'CASH' ? transactionCashNumber : transactionNumber.trim(),
         startDate: Date.now(),
         endDate: Date.now(),
         buyerNIT: buyerNIT.trim(),
@@ -180,7 +181,7 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
           {item == null ? 'Pago Mensualidad' : `${item.id}`}
         </DialogTitle>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} sx={{ padding: '5px', margin:'10px'  }}>
+          <Grid item xs={12} sm={6} sx={{ padding: '5px', margin: '10px' }}>
             <ComponentSelect
               label={inscriptions != null ? 'Inscripcion' : ''}
               title={inscriptions != null ? inscriptions.id : 'Inscripcion'}
@@ -246,23 +247,23 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
               <form onSubmit={sendSubmit}>
                 <DialogContent sx={{ display: 'flex' }}>
                   <Grid container>
-                  <Grid item xs={12} sx={{ padding: '5px' }}>
-              <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">Forumulario</FormLabel>
-                <RadioGroup
-                 row
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  value={valueradio}
-                  onChange={handleChange}
-                  name="payMethod"
+                    <Grid item xs={12} sx={{ padding: '5px' }}>
+                      <FormControl>
+                        <FormLabel id="demo-radio-buttons-group-label">Forumulario</FormLabel>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          value={valueradio}
+                          onChange={handleChange}
+                          name="payMethod"
 
-                >
-                  <FormControlLabel value="CASH" control={<Radio />} label={<AttachMoneyIcon />} />
-                  <FormControlLabel value="QR" control={<Radio />} label={<QrCodeIcon />} />
-                  <FormControlLabel value="BANK" control={<Radio />} label={<AccountBalanceIcon />} />
-                </RadioGroup>
-              </FormControl>
-                {/* <ComponentInput
+                        >
+                          <FormControlLabel value="CASH" control={<Radio />} label={<AttachMoneyIcon />} />
+                          <FormControlLabel value="QR" control={<Radio />} label={<QrCodeIcon />} />
+                          <FormControlLabel value="BANK" control={<Radio />} label={<AccountBalanceIcon />} />
+                        </RadioGroup>
+                      </FormControl>
+                      {/* <ComponentInput
                   type="text"
                   label="payMethod"
                   name="payMethod"
@@ -271,66 +272,64 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
                   error={!!payMethodValid && formSubmitted}
                   helperText={formSubmitted ? payMethodValid : ''}
                 /> */}
-              </Grid>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentInput
-                  type="text"
-                  label="Recibe de:"
-                  name="buyerName"
-                  value={buyerName}
-                  onChange={onInputChange}
-                  error={!!buyerNameValid && formSubmitted}
-                  helperText={formSubmitted ? buyerNameValid : ''}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentInput
-                  type="text"
-                  label="NIT"
-                  name="buyerNIT"
-                  value={buyerNIT}
-                  onChange={onInputChange}
-                  error={!!buyerNITValid && formSubmitted}
-                  helperText={formSubmitted ? buyerNITValid : ''}
-                />
-              </Grid>
-                  <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                    <ComponentInput
-                      type="number"
-                      label="amountPaid"
-                      name="amountPaid"
-                      value={amountPaid}
-                      onChange={onInputChange}
-                      error={!!amountPaidValid && formSubmitted}
-                      helperText={formSubmitted ? amountPaidValid : ''}
-                    />
+                    </Grid>
+                    <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                      <ComponentInput
+                        type="text"
+                        label="Recibe de:"
+                        name="buyerName"
+                        value={buyerName}
+                        onChange={onInputChange}
+                        error={!!buyerNameValid && formSubmitted}
+                        helperText={formSubmitted ? buyerNameValid : ''}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                      <ComponentInput
+                        type="text"
+                        label="NIT"
+                        name="buyerNIT"
+                        value={buyerNIT}
+                        onChange={onInputChange}
+                        error={!!buyerNITValid && formSubmitted}
+                        helperText={formSubmitted ? buyerNITValid : ''}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                      <ComponentInput
+                        type="number"
+                        label="amountPaid"
+                        name="amountPaid"
+                        value={amountPaid}
+                        onChange={onInputChange}
+                        error={!!amountPaidValid && formSubmitted}
+                        helperText={formSubmitted ? amountPaidValid : ''}
+                      />
+                    </Grid>
+
+                    {valueradio !== 'CASH' && <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                      <ComponentInput
+                        type="text"
+                        label="# transaccion"
+                        name="transactionNumber"
+                        value={transactionNumber}
+                        onChange={onInputChange}
+                        error={!!transactionNumberValid && formSubmitted}
+                        helperText={formSubmitted ? transactionNumberValid : ''}
+                      />
+                    </Grid>}
+                    <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+
+                      <ComponentDate
+                        date={commitmentDate}
+                        title="commitmentDate"
+                        onChange={(event) => onValueChange('commitmentDate', event)}
+                        error={!!commitmentDateValid && formSubmitted}
+                        helperText={formSubmitted ? commitmentDateValid : ''}
+                      />
+                    </Grid>
                   </Grid>
-                  
-                  {valueradio !== 'CASH'&&  <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentInput
-                  type="text"
-                  label="# transaccion"
-                  name="transactionNumber"
-                  value={transactionNumber}
-                  onChange={onInputChange}
-                  error={!!transactionNumberValid && formSubmitted}
-                  helperText={formSubmitted ? transactionNumberValid : ''}
-                />
-              </Grid>}
-                  <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                    
-                    <ComponentInput
-                      type="text"
-                      label="fecha compromiso"
-                      name="commitmentDate"
-                      value={commitmentDate}
-                      onChange={onInputChange}
-                      error={!!commitmentDateValid && formSubmitted}
-                      helperText={formSubmitted ? commitmentDateValid : ''}
-                    />
-                  </Grid>
-                  </Grid>
-                  
+
                 </DialogContent>
 
 
