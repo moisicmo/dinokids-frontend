@@ -190,20 +190,6 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
                 defaultValue={`${inscriptions.price.inscription}`}
                 variant="standard"
               />
-                <TextField
-                disabled
-                id="outlined-disabled"
-                label="Espoecialidad"
-                defaultValue={`${inscriptions.subject.category.name}`}
-                variant="standard"
-              />
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="materia"
-                defaultValue={`${inscriptions.subject.name}`}
-                variant="standard"
-              />
             </Box>
             
           

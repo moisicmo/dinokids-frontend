@@ -17,9 +17,9 @@ export const TeacherView = () => {
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h6">Docentes</Typography>
+        <Typography variant="h6">Profesores</Typography>
         <ComponentButton
-          text="Nuevo docente"
+          text="Nuevo profesor"
           onClick={() => handleDialog(true)}
           startIcon={
             <SvgIcon fontSize="small">

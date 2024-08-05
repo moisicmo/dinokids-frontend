@@ -23,30 +23,6 @@ export const menu = () => {
           icon: <Home />,
           permission: 'show-halls',
         },
-        {
-          path: '/categoryView',
-          title: 'Especialidades',
-          icon: <Home />,
-          permission: 'show-halls',
-        },
-        {
-          path: '/subjectView',
-          title: 'Materias',
-          icon: <Home />,
-          permission: 'show-halls',
-        },
-        {
-          path: '/moduleView',
-          title: 'Módulos',
-          icon: <Home />,
-          permission: 'show-halls',
-        },
-        {
-          path: '/classesView',
-          title: 'Clases',
-          icon: <Home />,
-          permission: 'show-halls',
-        },
       ],
     },
     // {
@@ -115,13 +91,19 @@ export const menu = () => {
       group: [
         {
           path: '/teacherView',
-          title: 'Docentes',
+          title: 'Profesores',
           icon: <Group />,
           permission: 'show-halls',
         },
         {
           path: '/studentView',
           title: 'Estudiantes',
+          icon: <Group />,
+          permission: 'show-halls',
+        },
+        {
+          path: '/tutorView',
+          title: 'Tutores',
           icon: <Group />,
           permission: 'show-halls',
         },

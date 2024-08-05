@@ -4,6 +4,7 @@ export interface UserModel {
   dni: string;
   name: string;
   lastName: string;
+  phone: string|null;
   email:string;
   image:string;
 }

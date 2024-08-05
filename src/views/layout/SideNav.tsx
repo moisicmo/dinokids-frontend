@@ -9,34 +9,34 @@ import {
 } from '@mui/material';
 import { SideNavItem } from '@/components';
 import { menu } from '@/utils/menu';
-// import logo from '@/assets/images/muserpol-logo.png';
+import logo from '@/assets/images/logo.png';
 
 export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
 
 
   const { pathname } = useLocation();
   const theme = useTheme();
-  const lgUp = useMediaQuery(theme.breakpoints.up('md'));
+  const lgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
   const content = (
     <Box component="nav" >
       <Stack
         sx={{
           listStyle: 'none',
-          p: 0,
-          m: 0,
-          px: 2,
+          px: 1,
           py: 3
         }}
+        justifyContent="center" alignItems="center"
       >
-        {/* <img src={logo} alt="logo" style={{ objectFit: 'cover' }} /> */}
+        <img src={logo} alt="logo" style={{  width: '100px'  }} />
+        <div style={{ height: 10 }} />
         {menu().map((item) => (
           <Box
             key={item.title}
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              height: '100%'
+              height: '100%',
             }}
           >
             {
@@ -84,9 +84,8 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
         open
         PaperProps={{
           sx: {
-            backgroundColor: '#1E1F28',
-            color: 'white',
-            width: 220
+            color: '#9ca6be',
+            width: 190
           }
         }}
         variant="permanent"
@@ -103,9 +102,8 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: '#1E1F28',
-          color: 'white',
-          width: 220
+          color: '#9ca6be',
+          width: 190
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

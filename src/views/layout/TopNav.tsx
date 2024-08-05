@@ -16,11 +16,13 @@ export const TopNav = ({ onNavOpen }: { onNavOpen: any }) => {
   return (
     <>
       <Box
+        component="header"
         sx={{
-          backdropFilter: 'blur(6px)',
-          backgroundColor: () => 'transparent',
           position: 'sticky',
-          width:'100%',
+          top: 0,
+          width: {
+            lg: `calc(100%)`,
+          },
           zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
@@ -32,7 +34,7 @@ export const TopNav = ({ onNavOpen }: { onNavOpen: any }) => {
           sx={{
             minHeight: TOP_NAV_HEIGHT,
             px: 2,
-            py:1
+            py: 1,
           }}
         >
           <Stack alignItems="center" direction="row" spacing={2}>
@@ -43,11 +45,11 @@ export const TopNav = ({ onNavOpen }: { onNavOpen: any }) => {
             )}
           </Stack>
           <Avatar
-              onClick={accountPopover.handleOpen}
-              ref={accountPopover.anchorRef}
-              sx={{ cursor: 'pointer', width: 45, height: 45 }}
-              src={noimage}
-            />
+            onClick={accountPopover.handleOpen}
+            ref={accountPopover.anchorRef}
+            sx={{ cursor: 'pointer', width: 45, height: 45 }}
+            src={noimage}
+          />
         </Stack>
       </Box>
       <AccountPopover

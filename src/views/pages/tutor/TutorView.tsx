@@ -2,12 +2,12 @@ import { ComponentButton } from '@/components';
 import { Stack, SvgIcon, Typography } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { Add } from '@mui/icons-material';
-import { TeacherModel } from '@/models';
-import { TeacherCreate, TeacherTable } from '.';
+import { TutorModel } from '@/models';
+import { TutorCreate, TutorTable } from '.';
 
-export const TeacherView = () => {
+export const TutorView = () => {
   const [openDialog, setopenDialog] = useState(false);
-  const [itemEdit, setItemEdit] = useState<TeacherModel | null>(null);
+  const [itemEdit, setItemEdit] = useState<TutorModel | null>(null);
 
   /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
   const handleDialog = useCallback((value: boolean) => {
@@ -17,9 +17,9 @@ export const TeacherView = () => {
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h6">Docentes</Typography>
+        <Typography variant="h6">Tutores</Typography>
         <ComponentButton
-          text="Nuevo docente"
+          text="Nuevo Tutor"
           onClick={() => handleDialog(true)}
           startIcon={
             <SvgIcon fontSize="small">
@@ -28,14 +28,14 @@ export const TeacherView = () => {
           }
         />
       </Stack>
-      <TeacherTable
+      <TutorTable
         handleEdit={(v) => {
           setItemEdit(v);
           handleDialog(true);
         }}
       />
       {openDialog && (
-        <TeacherCreate
+        <TutorCreate
           open={openDialog}
           handleClose={() => handleDialog(false)}
           item={itemEdit == null ? null : { ...itemEdit }}

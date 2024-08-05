@@ -12,13 +12,10 @@ import { InscriptionView } from '@/views/pages/inscription';
 import { PermissionView } from '@/views/pages/permission';
 import { RoleView } from '@/views/pages/role';
 import { BranchView } from '@/views/pages/branch';
-import { SubjectView } from '@/views/pages/subject';
-import { CategoryView } from '@/views/pages/category';
 import { RoomView } from '@/views/pages/room';
 import { StaffView } from '@/views/pages/staff';
 import { MonthlyFeeView } from '@/views/pages/pay/monthlyfee';
-import { ModuleView } from '@/views/pages/module';
-import { ClassesView } from '@/views/pages/classes';
+import { TutorView } from '@/views/pages/tutor';
 
 export const AppRouter = () => {
 
@@ -35,11 +32,7 @@ export const AppRouter = () => {
         <Routes>
           <Route path='/dashboardView' element={<DashboardView />} />
           <Route path='/branchView' element={<BranchView />} />
-          <Route path='/subjectView' element={<SubjectView />} />
-          <Route path='/moduleView' element={<ModuleView />} />
-          <Route path='/classesView' element={<ClassesView />} />
           
-          <Route path='/categoryView' element={<CategoryView />} />
           <Route path='/roomView' element={<RoomView />} />
           
           
@@ -49,6 +42,8 @@ export const AppRouter = () => {
           <Route path='/teacherView' element={<TeacherView />} />
           <Route path='/staffView' element={<StaffView />} />
           <Route path='/studentView' element={<StudentView />} />
+          <Route path='/tutorView' element={<TutorView />} />
+          
           <Route path='/pagos' element={<MonthlyFeeView />} />
 
           <Route path='/ReportView' element={<ReportView />} />

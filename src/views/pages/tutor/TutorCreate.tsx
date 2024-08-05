@@ -1,9 +1,9 @@
 import { ComponentInput } from '@/components';
-import { useForm, useTeacherStore } from '@/hooks';
+import { useForm, useTutorStore } from '@/hooks';
 import {
-  FormTeacherModel,
-  FormTeacherValidations,
-  TeacherModel,
+  FormTutorModel,
+  FormTutorValidations,
+  TutorModel,
 } from '@/models';
 import {
   Button,
@@ -18,39 +18,47 @@ import { FormEvent, useState } from 'react';
 interface createProps {
   open: boolean;
   handleClose: () => void;
-  item: TeacherModel | null;
+  item: TutorModel | null;
 }
 
-const formFields: FormTeacherModel = {
-  ci: '',
+const formFields: FormTutorModel = {
+  dni: '',
   name: '',
   lastName: '',
   email: '',
+  phone: '',
+  address: '',
 };
 
-const formValidations: FormTeacherValidations = {
-  ci: [(value) => value.length >= 1, 'Debe ingresar el carnet'],
+const formValidations: FormTutorValidations = {
+  dni: [(value) => value.length >= 1, 'Debe ingresar el carnet'],
   name: [(value) => value.length >= 1, 'Debe ingresar el nombre'],
   lastName: [(value) => value.length >= 1, 'Debe ingresar el apellido'],
   email: [(value) => value.length >= 1, 'Debe ingresar el correo'],
+  phone: [(value) => value.length >= 1, 'Debe ingresar el teléfono de contacto'],
+  address: [(value) => value.length >= 1, 'Debe ingresar la dirección'],
 };
 
-export const TeacherCreate = (props: createProps) => {
+export const TutorCreate = (props: createProps) => {
   const { open, handleClose, item } = props;
   const {
-    ci,
+    dni,
     name,
     lastName,
     email,
+    phone,
+    address,
     onInputChange,
     isFormValid,
     onResetForm,
-    ciValid,
+    dniValid,
     nameValid,
     lastNameValid,
     emailValid,
+    phoneValid,
+    addressValid,
   } = useForm(item ?? formFields, formValidations);
-  const { createTeacher, updateTeacher } = useTeacherStore();
+  const { createTutor, updateTutor } = useTutorStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const sendSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -58,18 +66,22 @@ export const TeacherCreate = (props: createProps) => {
     setFormSubmitted(true);
     if (!isFormValid) return;
     if (item == null) {
-      await createTeacher({
-        ci: ci.trim(),
+      await createTutor({
+        dni: dni.trim(),
         name: name.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
+        phone: phone.trim(),
+        address: address.trim(),
       });
     } else {
-      await updateTeacher(item.id, {
-        ci: ci.trim(),
+      await updateTutor(item.id, {
+        dni: dni.trim(),
         name: name.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
+        phone: phone.trim(),
+        address: address.trim(),
       });
     }
     handleClose();
@@ -78,9 +90,9 @@ export const TeacherCreate = (props: createProps) => {
 
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} style={{ zIndex: 9998 }}>
         <DialogTitle>
-          {item == null ? 'Nuevo Docente' : `${item.name}`}
+          {item == null ? 'Nuevo Tutor' : `${item.name}`}
         </DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
@@ -111,11 +123,22 @@ export const TeacherCreate = (props: createProps) => {
                 <ComponentInput
                   type="text"
                   label="Carnet"
-                  name="ci"
-                  value={ci}
+                  name="dni"
+                  value={dni}
                   onChange={onInputChange}
-                  error={!!ciValid && formSubmitted}
-                  helperText={formSubmitted ? ciValid : ''}
+                  error={!!dniValid && formSubmitted}
+                  helperText={formSubmitted ? dniValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Teléfono"
+                  name="phone"
+                  value={phone}
+                  onChange={onInputChange}
+                  error={!!phoneValid && formSubmitted}
+                  helperText={formSubmitted ? phoneValid : ''}
                 />
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
@@ -127,6 +150,17 @@ export const TeacherCreate = (props: createProps) => {
                   onChange={onInputChange}
                   error={!!emailValid && formSubmitted}
                   helperText={formSubmitted ? emailValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Dirección"
+                  name="address"
+                  value={address}
+                  onChange={onInputChange}
+                  error={!!addressValid && formSubmitted}
+                  helperText={formSubmitted ? addressValid : ''}
                 />
               </Grid>
             </Grid>

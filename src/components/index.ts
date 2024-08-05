@@ -11,3 +11,4 @@ export * from './Date';
 export * from './SelectPicker';
 export * from './DateRange';
 export * from './ShowTable';
+export * from './range';

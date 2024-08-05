@@ -61,10 +61,10 @@ export const InscriptionTable = (props: tableProps) => {
               {stateSelect && <TableCell />}
               <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre y apellido</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Precio</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Inscripción</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Mensualidad</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Aulas - Especialidades</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Sucursal</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Materia</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Especialidad</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
@@ -83,10 +83,18 @@ export const InscriptionTable = (props: tableProps) => {
                   }
                   <TableCell>{inscription.student.name}</TableCell>
                   <TableCell>{`${inscription.student.name} ${inscription.student.lastName}`}</TableCell>
-                  <TableCell>{inscription.total}</TableCell>
-                  <TableCell>{inscription.branch.name}</TableCell>
-                  <TableCell>{inscription.subject.name}</TableCell>
-                  <TableCell>{inscription.subject.category.name}</TableCell>
+                  <TableCell>{`Bs ${inscription.price.inscription}`}</TableCell>
+                  <TableCell>{`Bs ${inscription.price.month}`}</TableCell>
+                  <TableCell>
+                    <ul>
+                      {inscription.rooms.map((room) => (
+                        <li key={room.id}>
+                          {`${room.name} - ${room.specialty.name}`}
+                        </li>
+                      ))}
+                    </ul>
+                  </TableCell>
+                      <TableCell>{inscription.rooms[0].branch.name}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack

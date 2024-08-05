@@ -225,20 +225,6 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
                   defaultValue={`${inscriptions.price.month}`}
                   variant="standard"
                 />
-                <TextField
-                  disabled
-                  id="outlined-disabled"
-                  label="Espoecialidad"
-                  defaultValue={`${inscriptions.subject.category.name}`}
-                  variant="standard"
-                />
-                <TextField
-                  disabled
-                  id="outlined-disabled"
-                  label="materia"
-                  defaultValue={`${inscriptions.subject.name}`}
-                  variant="standard"
-                />
               </Box>
 
 
@@ -321,6 +307,7 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
                     <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
 
                       <ComponentDate
+                        onlyDate
                         date={commitmentDate}
                         title="commitmentDate"
                         onChange={(event) => onValueChange('commitmentDate', event)}

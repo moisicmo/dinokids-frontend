@@ -1,25 +1,16 @@
-import {
-  ComponentSelect,
-  ModalSelectComponent,
-} from '@/components';
+import { ComponentInput, ComponentSelect, ModalSelectComponent } from '@/components';
 import { useForm, useInscriptionStore } from '@/hooks';
 import {
   FormInscriptionModel,
   FormInscriptionValidations,
   InscriptionModel,
+  RoomModel,
 } from '@/models';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { FormEvent, useCallback, useState } from 'react';
 import { StudentTable } from '../student';
 import { BranchTable } from '../branch';
-import { SubjectTable } from '../subject';
+import { SpecialtyTable } from '../specialty';
 
 interface createProps {
   open: boolean;
@@ -30,13 +21,17 @@ interface createProps {
 const formFields: FormInscriptionModel = {
   student: null,
   branch: null,
-  subject: null,
+  rooms: [],
+  inscription: 0,
+  month: 0,
 };
 
 const formValidations: FormInscriptionValidations = {
   student: [(value) => value != null, 'Debe ingresar el estudiante'],
   branch: [(value) => value != null, 'Debe ingresar la sucursal'],
-  subject: [(value) => value != null, 'Debe ingresar la materia'],
+  rooms: [(value) => value.length > 0, 'Debe ingresar almenos un aula'],
+  inscription: [(value) => value > 0, 'Debe agregar un monto a la inscripción'],
+  month: [(value) => value > 0, 'Debe agregar un monto para la mensualidad'],
 };
 
 export const InscriptionCreate = (props: createProps) => {
@@ -44,13 +39,18 @@ export const InscriptionCreate = (props: createProps) => {
   const {
     student,
     branch,
-    subject,
+    rooms,
+    inscription,
+    month,
     isFormValid,
+    onInputChange,
     onValueChange,
     onResetForm,
     studentValid,
     branchValid,
-    subjectValid,
+    roomsValid,
+    inscriptionValid,
+    monthValid,
   } = useForm(item ?? formFields, formValidations);
   const { createInscription, updateInscription } = useInscriptionStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -62,15 +62,16 @@ export const InscriptionCreate = (props: createProps) => {
     if (item == null) {
       await createInscription({
         studentId: student.id,
-        branchId: branch.id,
-        subjectId: subject.id,
-        priceId:1,
+        rooms: rooms.map((e: RoomModel) => e.id),
+        inscription: parseInt(inscription),
+        month: parseInt(month),
       });
     } else {
       await updateInscription(item.id, {
         studentId: student.id,
-        branchId: branch.id,
-        subjectId: subject.id,
+        rooms: rooms.map((e: RoomModel) => e.id),
+        inscription: parseInt(inscription),
+        month: parseInt(month),
       });
     }
     handleClose();
@@ -89,12 +90,11 @@ export const InscriptionCreate = (props: createProps) => {
     setModalBranch(value);
   }, []);
 
-  //modal subject
-  const [modalSubject, setModalSubject] = useState(false);
-  const handleModalSubject = useCallback((value: boolean) => {
-    setModalSubject(value);
+  //modal specialty
+  const [modalSpecialty, setModalSpecialty] = useState(false);
+  const handleModalSpecialty = useCallback((value: boolean) => {
+    setModalSpecialty(value);
   }, []);
-
 
   return (
     <>
@@ -142,32 +142,34 @@ export const InscriptionCreate = (props: createProps) => {
           />
         </ModalSelectComponent>
       )}
-      {/* modal subject */}
-      {modalSubject && (
+      {/* modal specialty */}
+      {modalSpecialty && (
         <ModalSelectComponent
           stateSelect={true}
-          stateMultiple={false}
-          title="Materias:"
-          opendrawer={modalSubject}
-          handleDrawer={handleModalSubject}
+          stateMultiple={true}
+          title="Especialidades:"
+          opendrawer={modalSpecialty}
+          handleDrawer={handleModalSpecialty}
         >
-          <SubjectTable
-            stateSelect={true}
-            limitInit={5}
+          <SpecialtyTable
             itemSelect={(v) => {
-              if (subject == null || subject.id != v.id) {
-                onValueChange('subject', v);
-                handleModalSubject(false);
+              console.log(v)
+              if (rooms.map((e: RoomModel) => e.id).includes(v.id)) {
+                onValueChange('rooms', [
+                  ...rooms.filter((e: RoomModel) => e.id != v.id),
+                ]);
+              } else {
+                onValueChange('rooms', [...rooms, v]);
               }
             }}
-            items={subject == null ? [] : [subject.id]}
+            items={rooms.map((e: RoomModel) => e.id)}
+            branchId={branch.id}
+            isRoomSelect
           />
         </ModalSelectComponent>
       )}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          {item == null ? 'Nueva Inscripción' : `${item.student.name}`}
-        </DialogTitle>
+        <DialogTitle>{item == null ? 'Nueva Inscripción' : `${item.student.name}`}</DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
             <Grid container>
@@ -180,7 +182,7 @@ export const InscriptionCreate = (props: createProps) => {
                   helperText={formSubmitted ? studentValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ padding: '5px' }}>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentSelect
                   label={branch != null ? 'Sucursal' : ''}
                   title={branch != null ? branch.name : 'Sucursal'}
@@ -189,13 +191,43 @@ export const InscriptionCreate = (props: createProps) => {
                   helperText={formSubmitted ? branchValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ padding: '5px' }}>
-                <ComponentSelect
-                  label={subject != null ? 'Materia' : ''}
-                  title={subject != null ? subject.name : 'Materia'}
-                  onPressed={() => handleModalSubject(true)}
-                  error={!!subjectValid && formSubmitted}
-                  helperText={formSubmitted ? subjectValid : ''}
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                {branch != null && (
+                  <ComponentSelect
+                    label={rooms != null ? '' : 'Aulas - Especialidades'}
+                    title={'Aulas - Especialidades'}
+                    onPressed={() => handleModalSpecialty(true)}
+                    error={!!roomsValid && formSubmitted}
+                    helperText={formSubmitted ? roomsValid : ''}
+                    items={rooms.map((e: RoomModel) => ({ id: e.id, name: `${e.name} - ${e.specialty.name}` }))}
+                    onRemove={(v) =>
+                      onValueChange('specialties', [
+                        ...rooms.filter((e: RoomModel) => e.id != v),
+                      ])
+                    }
+                  />
+                )}
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Inscripción Acordada"
+                  name="inscription"
+                  value={inscription}
+                  onChange={onInputChange}
+                  error={!!inscriptionValid && formSubmitted}
+                  helperText={formSubmitted ? inscriptionValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Mensualidad Acordada"
+                  name="month"
+                  value={month}
+                  onChange={onInputChange}
+                  error={!!monthValid && formSubmitted}
+                  helperText={formSubmitted ? monthValid : ''}
                 />
               </Grid>
             </Grid>

@@ -6,7 +6,7 @@ import { ComponentButton, ComponentInput } from '@/components';
 
 const loginFormFields = {
   email: 'moisic.mo@gmail.com',
-  password: '8312915',
+  password: 'moisic.mo@gmail.com',
 }
 const formValidations = {
   email: [(value: any) => value.length >= 1, 'Debe ingresar su cuenta'],

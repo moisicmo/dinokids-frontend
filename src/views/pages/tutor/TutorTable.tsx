@@ -1,21 +1,22 @@
-import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useTeacherStore } from '@/hooks';
-import { TeacherModel } from "@/models";
+import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
+import { useTutorStore } from '@/hooks';
+import { TutorModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { TutorCreate } from ".";
 
 interface tableProps {
-  handleEdit?: (season: TeacherModel) => void;
+  handleEdit?: (season: TutorModel) => void;
   limitInit?: number;
   stateSelect?: boolean;
-  itemSelect?: (season: TeacherModel) => void;
+  itemSelect?: (season: TutorModel) => void;
   items?: any[];
 }
 
 
-export const TeacherTable = (props: tableProps) => {
+export const TutorTable = (props: tableProps) => {
   const {
     stateSelect = false,
     handleEdit,
@@ -24,36 +25,52 @@ export const TeacherTable = (props: tableProps) => {
     items = [],
   } = props;
 
-  const { teachers = [], getTeachers, deleteTeacher } = useTeacherStore();
+  const { tutors = [], getTutors, deleteTutor } = useTutorStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
-  const [customerList, setCustomerList] = useState<TeacherModel[]>([]);
+  const [customerList, setCustomerList] = useState<TutorModel[]>([]);
   const [query, setQuery] = useState<string>('');
 
 
   useEffect(() => {
-    getTeachers()
+    getTutors()
   }, []);
 
   useEffect(() => {
-    const filtered = teachers.filter((e: TeacherModel) =>
+    const filtered = tutors.filter((e: TutorModel) =>
       e.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
-      query != '' ? filtered : teachers,
+      query != '' ? filtered : tutors,
       page,
       rowsPerPage
     );
     setCustomerList(newList)
-  }, [teachers, page, rowsPerPage, query])
+  }, [tutors, page, rowsPerPage, query])
 
+  /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
+  const [itemEdit, setItemEdit] = useState<TutorModel | null>(null);
+  const [openDialog, setopenDialog] = useState(false);
+  const handleDialog = useCallback((value: boolean) => {
+    if (!value) setItemEdit(null)
+    setopenDialog(value);
+  }, []);
 
   return (
-    <Stack sx={{ paddingRight: '10px' }}>
-      <ComponentSearch
-        title="Buscar Docente"
-        search={setQuery}
-      />
+    <>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+      >
+        <ComponentSearch
+          title="Buscar Tutores"
+          search={setQuery}
+        />
+        {stateSelect && <ComponentButton
+          text="Crear Tutor"
+          onClick={() => handleDialog(true)}
+        />}
+      </Stack>
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">
           <TableHead>
@@ -63,26 +80,30 @@ export const TeacherTable = (props: tableProps) => {
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Apellido</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Correo</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Teléfono</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Dirección</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
-            {customerList.map((teacher: TeacherModel) => {
-              const isSelected = items.includes(teacher.id);
+            {customerList.map((tutor: TutorModel) => {
+              const isSelected = items.includes(tutor.id);
               return (
-                <TableRow key={teacher.id} >
+                <TableRow key={tutor.id} >
                   {
                     stateSelect && <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
-                        onChange={() => itemSelect!(teacher)}
+                        onChange={() => itemSelect!(tutor)}
                       />
                     </TableCell>
                   }
-                  <TableCell>{teacher.ci}</TableCell>
-                  <TableCell>{teacher.name}</TableCell>
-                  <TableCell>{teacher.lastName}</TableCell>
-                  <TableCell>{teacher.email}</TableCell>
+                  <TableCell>{tutor.dni}</TableCell>
+                  <TableCell>{tutor.name}</TableCell>
+                  <TableCell>{tutor.lastName}</TableCell>
+                  <TableCell>{tutor.email}</TableCell>
+                  <TableCell>{tutor.phone}</TableCell>
+                  <TableCell>{tutor.address}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack
@@ -90,10 +111,10 @@ export const TeacherTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(teacher)} >
+                        <IconButton onClick={() => handleEdit!(tutor)} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteTeacher(teacher.id)} >
+                        <IconButton onClick={() => deleteTutor(tutor.id)} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>
@@ -106,12 +127,20 @@ export const TeacherTable = (props: tableProps) => {
         </Table>
       </TableContainer>
       <ComponentTablePagination
-        total={teachers.length}
+        total={tutors.length}
         onPageChange={(value) => setPage(value)}
         onRowsPerPageChange={(value) => setRowsPerPage(value)}
         page={page}
         limit={rowsPerPage}
       />
-    </Stack>
+      {
+        openDialog &&
+        <TutorCreate
+          open={openDialog}
+          handleClose={() => handleDialog(false)}
+          item={itemEdit}
+        />
+      }
+    </>
   );
 }

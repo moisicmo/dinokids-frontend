@@ -63,6 +63,7 @@ export const TeacherTable = (props: tableProps) => {
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Apellido</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Correo</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Teléfono</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
@@ -83,6 +84,7 @@ export const TeacherTable = (props: tableProps) => {
                   <TableCell>{teacher.name}</TableCell>
                   <TableCell>{teacher.lastName}</TableCell>
                   <TableCell>{teacher.email}</TableCell>
+                  <TableCell>{teacher.phone}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack

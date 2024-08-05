@@ -26,6 +26,7 @@ const formFields: FormTeacherModel = {
   name: '',
   lastName: '',
   email: '',
+  phone: '',
 };
 
 const formValidations: FormTeacherValidations = {
@@ -33,6 +34,7 @@ const formValidations: FormTeacherValidations = {
   name: [(value) => value.length >= 1, 'Debe ingresar el nombre'],
   lastName: [(value) => value.length >= 1, 'Debe ingresar el apellido'],
   email: [(value) => value.length >= 1, 'Debe ingresar el correo'],
+  phone: [(value) => value.length >= 1, 'Debe ingresar el teléfono de contacto'],
 };
 
 export const TeacherCreate = (props: createProps) => {
@@ -42,6 +44,7 @@ export const TeacherCreate = (props: createProps) => {
     name,
     lastName,
     email,
+    phone,
     onInputChange,
     isFormValid,
     onResetForm,
@@ -49,6 +52,7 @@ export const TeacherCreate = (props: createProps) => {
     nameValid,
     lastNameValid,
     emailValid,
+    phoneValid,
   } = useForm(item ?? formFields, formValidations);
   const { createTeacher, updateTeacher } = useTeacherStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -63,6 +67,7 @@ export const TeacherCreate = (props: createProps) => {
         name: name.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
+        phone: phone.trim(),
       });
     } else {
       await updateTeacher(item.id, {
@@ -70,6 +75,7 @@ export const TeacherCreate = (props: createProps) => {
         name: name.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
+        phone: phone.trim(),
       });
     }
     handleClose();
@@ -80,7 +86,7 @@ export const TeacherCreate = (props: createProps) => {
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {item == null ? 'Nuevo Docente' : `${item.name}`}
+          {item == null ? 'Nuevo Profesor' : `${item.name}`}
         </DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
@@ -116,6 +122,17 @@ export const TeacherCreate = (props: createProps) => {
                   onChange={onInputChange}
                   error={!!dniValid && formSubmitted}
                   helperText={formSubmitted ? dniValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Teléfono"
+                  name="phone"
+                  value={phone}
+                  onChange={onInputChange}
+                  error={!!phoneValid && formSubmitted}
+                  helperText={formSubmitted ? phoneValid : ''}
                 />
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>

@@ -1,4 +1,4 @@
-import { BranchModel, StaffModel, StudentModel, SubjectModel,MonthlyFeeModel } from ".";
+import { BranchModel, StaffModel, StudentModel,MonthlyFeeModel, RoomModel, PriceModel } from ".";
 
 export interface InscriptionModel {
   id: number;
@@ -6,21 +6,25 @@ export interface InscriptionModel {
   url: string;
   student:StudentModel;
   staff:StaffModel;
-  branch: BranchModel;
-  subject: SubjectModel;
   monthlyFee: MonthlyFeeModel;
+  rooms: RoomModel[];
+  price: PriceModel;
 }
 
 export interface FormInscriptionModel {
   student:StudentModel|null;
   branch:BranchModel|null;
-  subject:SubjectModel|null;
+  rooms:RoomModel[];
+  inscription:number;
+  month:number;
 }
 
 export interface FormInscriptionValidations {
   student: [(value: StudentModel) => boolean, string];
   branch: [(value: BranchModel) => boolean, string];
-  subject: [(value: SubjectModel) => boolean, string];
+  rooms: [(value: RoomModel[]) => boolean, string];
+  inscription: [(value: number) => boolean, string];
+  month: [(value:number) => boolean, string];
 }
 
 

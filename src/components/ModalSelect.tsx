@@ -12,7 +12,7 @@ export const ModalSelectComponent = React.memo((props: any) => {
     children,
     titleButton,
     onClickButton,
-    zIndex=9998,
+    zIndex = 9998,
   } = props;
 
   return (
@@ -35,7 +35,7 @@ export const ModalSelectComponent = React.memo((props: any) => {
     >
       <div style={{ overflowY: 'auto' }}>
         <Stack direction="row" justifyContent="space-between" style={{ padding: '8px', }}>
-        <Typography variant="h5">{title}</Typography>
+          <Typography variant="h5">{title}</Typography>
           {
             titleButton &&
             <div>

@@ -12,11 +12,10 @@ export * from './useStudentStore';
 export * from './useInscriptionStore';
 export * from './usePermissionStore';
 export * from './useRoleStore';
-export * from './useCategoryStore';
-export * from './useSubjectStore';
-export * from './useModuleStore';
-export * from './useClasseStore';
+export * from './useSpecialtyStore';
 export * from './useRoomStore';
+export * from './useScheduleStore';
+export * from './useTutorStore';
 
 // pay hooks
 

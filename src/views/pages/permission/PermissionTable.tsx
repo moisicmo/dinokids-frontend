@@ -55,7 +55,7 @@ export const PermissionTable = (props: tableProps) => {
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
               {stateSelect && <TableCell />}
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Categoria</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Modulo</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

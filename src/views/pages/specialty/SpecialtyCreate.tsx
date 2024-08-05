@@ -1,9 +1,9 @@
 import { ComponentInput } from '@/components';
-import { useCategoryStore, useForm } from '@/hooks';
+import { useForm, useSpecialtyStore } from '@/hooks';
 import {
-  CategoryModel,
-  FormCategoryModel,
-  FormCategoryValidations,
+  SpecialtyModel,
+  FormSpecialtyModel,
+  FormSpecialtyValidations,
 } from '@/models';
 import {
   Button,
@@ -11,50 +11,53 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
 } from '@mui/material';
 import { FormEvent, useState } from 'react';
 
 interface createProps {
   open: boolean;
   handleClose: () => void;
-  item: CategoryModel | null;
+  item: SpecialtyModel | null;
 }
 
-const formFields: FormCategoryModel = {
+const formFields: FormSpecialtyModel = {
   name: '',
 };
 
-const formValidations: FormCategoryValidations = {
+const formValidations: FormSpecialtyValidations = {
   name: [(value) => value.length >= 1, 'Debe ingresar el nombre'],
 };
 
-export const CategoryCreate = (props: createProps) => {
+export const SpecialtyCreate = (props: createProps) => {
   const { open, handleClose, item } = props;
-  const { createCategory, updateCategory } = useCategoryStore();
+  const { createSpecialty, updateSpecialty } = useSpecialtyStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const { name, onInputChange, isFormValid, onResetForm, nameValid } = useForm(
-    item ?? formFields,
-    formValidations
-  );
+  const {
+    name,
+    onInputChange,
+    isFormValid,
+    onResetForm,
+    nameValid,
+  } = useForm(item ?? formFields, formValidations);
 
   const sendSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
     if (item == null) {
-      await createCategory({
+      await createSpecialty({
         name: name.trim(),
       });
     } else {
-      await updateCategory(item.id, {
+      await updateSpecialty(item.id, {
         name: name.trim(),
       });
     }
     handleClose();
     onResetForm();
   };
-
   return (
     <>
       <Dialog open={open} onClose={handleClose} style={{ zIndex: 9998 }}>
@@ -63,15 +66,19 @@ export const CategoryCreate = (props: createProps) => {
         </DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
-            <ComponentInput
-              type="text"
-              label="Nombre"
-              name="name"
-              value={name}
-              onChange={onInputChange}
-              error={!!nameValid && formSubmitted}
-              helperText={formSubmitted ? nameValid : ''}
-            />
+            <Grid container>
+              <Grid item xs={12} sm={12} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Nombre"
+                  name="name"
+                  value={name}
+                  onChange={onInputChange}
+                  error={!!nameValid && formSubmitted}
+                  helperText={formSubmitted ? nameValid : ''}
+                />
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions>
             <Button
