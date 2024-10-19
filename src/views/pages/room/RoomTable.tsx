@@ -60,7 +60,7 @@ export const RoomTable = (props: tableProps) => {
       {roomId && (
         <ModalSelectComponent
           title="Horario:"
-          opendrawer={roomId}
+          opendrawer={roomId!=null}
           handleDrawer={() => setRoomId(null)}
         >
           <ScheduleTable roomId={roomId} />

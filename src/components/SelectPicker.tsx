@@ -1,15 +1,20 @@
+import { DayOfWeek } from '@/models';
 import {
+  Box,
+  Chip,
   FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Typography,
 } from '@mui/material';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 
 interface selectProps {
+  isMultiple?:boolean;
   label: string;
   handleSelect: (value: any) => void;
   options: any[];
@@ -21,6 +26,7 @@ interface selectProps {
 }
 export const ComponentSelectPicker = (props: selectProps) => {
   const {
+    isMultiple = false,
     label,
     handleSelect,
     options,
@@ -31,8 +37,8 @@ export const ComponentSelectPicker = (props: selectProps) => {
     helperText,
   } = props;
 
-  const onChange = (event: any) => {
-    let objSelected: any = event.target.value;
+  const onChange = (event: SelectChangeEvent<any>) => {
+    let objSelected = event.target.value;
     handleSelect(objSelected);
   };
 
@@ -43,8 +49,6 @@ export const ComponentSelectPicker = (props: selectProps) => {
           mr: 5,
           mb: 0.5,
           width: '100%',
-          // padding: '0px',
-          // margin: '0px',
           color: 'red',
           '.MuiOutlinedInput-notchedOutline': {
             borderColor: error ? 'red' : 'black',
@@ -56,7 +60,9 @@ export const ComponentSelectPicker = (props: selectProps) => {
         <Select
           labelId="select"
           id="select"
-          value={value}
+          multiple={isMultiple}
+          // value={value}
+          value={value??''}
           label="select"
           onChange={onChange}
           sx={{
@@ -90,6 +96,13 @@ export const ComponentSelectPicker = (props: selectProps) => {
               </InputAdornment>
             )
           }
+          renderValue={(selected) => (
+            isMultiple?<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value: any) => (
+                <Chip key={value} label={Object.entries(DayOfWeek).find(key => value == key[1])?.[0]} />
+              ))}
+            </Box>:<>{selected}</>
+          )}
           MenuProps={{
             style: {
               zIndex: 9999,

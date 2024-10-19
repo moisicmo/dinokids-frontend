@@ -1,0 +1,19 @@
+.selected-day {
+  background-color: #a7e8d8;
+  font-weight: bold;
+  transition: transform 50ms, box-shadow 50ms;
+  border-radius: 8px;
+}
+
+/* Eliminar el efecto hover para eventos seleccionados */
+.selected-day:hover {
+  background-color: #a7e8d8; /* Mantenemos el color de fondo al pasar el mouse */
+  transition-duration: initial;
+  transform: scale(1); /* Mantener la escala normal para seleccionados */
+}
+
+
+
+.clickable {
+  cursor: pointer;
+}

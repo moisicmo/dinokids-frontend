@@ -16,7 +16,7 @@ import {
   DialogTitle,
   Grid,
 } from '@mui/material';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { TutorTable } from '../tutor';
 
 interface createProps {
@@ -123,23 +123,21 @@ export const StudentCreate = (props: createProps) => {
     setModal(value);
   }, []);
 
-  // Obtener el key correspondiente gender
-  const genderKey = gender
-    ? Object.keys(Gender).find((key) => Gender[key as keyof typeof Gender] === gender)
-    : '';
-  const genderOptions = Object.entries(Gender).map(([key]) => ({
-    id: key,
-    name: key,
-  }));
-
-  // Obtener el key correspondiente education level
-  const educationLevelKey = educationLevel
-    ? Object.keys(EducationLevel).find((key) => EducationLevel[key as keyof typeof EducationLevel] === educationLevel)
-    : '';
-  const educationLevelOptions = Object.entries(EducationLevel).map(([key]) => ({
-    id: key,
-    name: key,
-  }));
+  const [genderOptions, setGenderOptions] = useState<Object[]>([]);
+  const [educationLevelOptions, setEducationLevelOptions] = useState<Object[]>([]);
+  useEffect(() => {
+    const genderOptions = Object.entries(Gender).map((value) => ({
+      id: value[1],
+      name: value[0],
+    }));
+    const educationLevelOptions = Object.entries(EducationLevel).map((value) => ({
+      id: value[1],
+      name: value[0],
+    }));
+    setGenderOptions(genderOptions);
+    setEducationLevelOptions(educationLevelOptions);
+  }, []);
+  
   return (
     <>
       {
@@ -238,10 +236,8 @@ export const StudentCreate = (props: createProps) => {
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentSelectPicker
                   label={'Género'}
-                  value={genderKey}
-                  handleSelect={(value: keyof typeof Gender) =>
-                    onValueChange('gender', Gender[value])
-                  }
+                  value={gender}
+                  handleSelect={(value: String) => onValueChange('gender', value)}
                   options={genderOptions}
                   error={!!genderValid && formSubmitted}
                   helperText={formSubmitted ? genderValid : ''}
@@ -272,10 +268,8 @@ export const StudentCreate = (props: createProps) => {
               <Grid item xs={12} sm={5} sx={{ padding: '5px' }}>
                 <ComponentSelectPicker
                   label={'Nível de educación'}
-                  value={educationLevelKey}
-                  handleSelect={(value: keyof typeof EducationLevel) =>
-                    onValueChange('educationLevel', EducationLevel[value])
-                  }
+                  value={educationLevel}
+                  handleSelect={(value: String) => onValueChange('educationLevel', value)}
                   options={educationLevelOptions}
                   error={!!educationLevelValid && formSubmitted}
                   helperText={formSubmitted ? educationLevelValid : ''}

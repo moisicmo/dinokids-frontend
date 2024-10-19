@@ -1144,10 +1144,10 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.12.tgz#12bb1e2be27293c1406acb6af1c3f3a1481d98c6"
   integrity sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==
 
-"@types/react-big-calendar@^1.8.9":
-  version "1.8.9"
-  resolved "https://registry.yarnpkg.com/@types/react-big-calendar/-/react-big-calendar-1.8.9.tgz#c80371c9c9fc05568ec9d104f4b4c44821911665"
-  integrity sha512-HIHLUxR3PzWHrFdZ00VnCMvDjAh5uzlL0vMC2b7tL3bKaAJsqq9T8h+x0GVeDbZfMfHAd1cs5tZBhVvourNJXQ==
+"@types/react-big-calendar@^1.8.10":
+  version "1.8.10"
+  resolved "https://registry.yarnpkg.com/@types/react-big-calendar/-/react-big-calendar-1.8.10.tgz#4ad95c915c10ef081e556eceef795e4f33d2c1fa"
+  integrity sha512-HczsLxbLic0wppijPYay9fNaJjYAM9umdKY/0Jats1u3RyYHl+6uHX+uwMVk/ssX6JfuP6tKOhvVld/9xgtFgA==
   dependencies:
     "@types/date-arithmetic" "*"
     "@types/prop-types" "*"
@@ -2450,10 +2450,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-react-big-calendar@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/react-big-calendar/-/react-big-calendar-1.13.1.tgz#d9b1af0ecbdfef4059e100969599209c27ef5efd"
-  integrity sha512-6qg2ivBPnGPE+iJTJ6nNG/Kol0XElNzywWkwjjN0GtXjooHcS+9/UnpiCDuKzbele3iB6fWeobkSHWhI6xxKYw==
+react-big-calendar@^1.13.4:
+  version "1.13.4"
+  resolved "https://registry.yarnpkg.com/react-big-calendar/-/react-big-calendar-1.13.4.tgz#8b79d392ed4099321d8441bbbb6756c820869a7a"
+  integrity sha512-eTc67wNHrEbtK7SW2dKlAWjPTcaMfg8BaL5ei4BQ/5FKzVOt3LrmBiq7hr9sOxOYtOfMRxWYMkjkZRvrlRWRBw==
   dependencies:
     "@babel/runtime" "^7.20.7"
     clsx "^1.2.1"

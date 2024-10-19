@@ -7,21 +7,22 @@ export enum DayOfWeek {
   sabado = 'SATURDAY',
   domingo = 'SUNDAY',
 }
+
 export interface ScheduleModel {
   id: number;
-  day: DayOfWeek;
+  days: DayOfWeek[];
   start: Date;
   end: Date;
 }
 
 export interface FormScheduleModel {
-  day: DayOfWeek|null;
+  days: DayOfWeek[];
   start: Date|null;
   end: Date|null;
 }
 
 export interface FormScheduleValidations {
-  day: [(value: DayOfWeek) => boolean, string];
+  days: [(value: DayOfWeek[]) => boolean, string];
   start: [(value: Date) => boolean, string];
   end: [(value: Date) => boolean, string];
 }

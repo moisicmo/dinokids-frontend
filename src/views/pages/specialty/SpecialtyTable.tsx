@@ -84,6 +84,8 @@ export const SpecialtyTable = (props: tableProps) => {
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
             {isRoomSelect ? (<TableCell sx={{ fontWeight: 'bold' }}>Aulas</TableCell>):(<TableCell/>)}
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Número de sesiones</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Costo estimado por sesión</TableCell>
               {!isRoomSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
@@ -115,6 +117,8 @@ export const SpecialtyTable = (props: tableProps) => {
                       </TableCell>
                     )}
                     <TableCell>{specialty.name}</TableCell>
+                    <TableCell>{specialty.numberSessions}</TableCell>
+                    <TableCell>{specialty.estimatedSessionCost}</TableCell>
 
                     {!isRoomSelect && (
                       <TableCell align="right">

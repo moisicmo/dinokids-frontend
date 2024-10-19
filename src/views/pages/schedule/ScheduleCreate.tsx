@@ -2,7 +2,7 @@ import { ComponentDate, ComponentSelectPicker } from '@/components';
 import { useForm, useScheduleStore } from '@/hooks';
 import { DayOfWeek, FormScheduleModel, FormScheduleValidations, ScheduleModel } from '@/models';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 interface createProps {
   roomId: number;
@@ -12,13 +12,13 @@ interface createProps {
 }
 
 const formFields: FormScheduleModel = {
-  day: null,
+  days: [],
   start: null,
   end: null,
 };
 
 const formValidations: FormScheduleValidations = {
-  day: [(value) => value != null, 'Debe ingresar el día'],
+  days: [(value) => value.length > 0, 'Debe ingresar el día'],
   start: [(value) => value != null, 'Debe ingresar la hora de inicio'],
   end: [(value) => value != null, 'Debe ingresar la hora fin'],
 };
@@ -28,32 +28,33 @@ export const ScheduleCreate = (props: createProps) => {
   const { createSchedule, updateSchedule } = useScheduleStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  
   const {
-    day,
+    days,
     start,
     end,
     isFormValid,
     onValueChange,
     onResetForm,
-    dayValid,
+    daysValid,
     startValid,
     endValid,
   } = useForm(item ?? formFields, formValidations);
-
+  
   const sendSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
     if (item == null) {
       await createSchedule({
-        day: day,
+        days: days,
         start: start,
         end: end,
         roomId: roomId,
       });
     } else {
       await updateSchedule(item.id, {
-        day: day,
+        days: days,
         start: start,
         end: end,
         roomId: roomId,
@@ -62,32 +63,33 @@ export const ScheduleCreate = (props: createProps) => {
     handleClose();
     onResetForm();
   };
-  // Obtener el key correspondiente al valor actual de day
-  const dayKey = day
-    ? Object.keys(DayOfWeek).find((key) => DayOfWeek[key as keyof typeof DayOfWeek] === day)
-    : '';
-  const dayOptions = Object.entries(DayOfWeek).map(([key]) => ({
-    id: key,
-    name: key,
-  }));
+  
+  const [daysAvailable, setDaysAvailable] = useState<Object[]>([]);
+  useEffect(() => {
+    const daysOptions = Object.entries(DayOfWeek).map((value) => ({
+      id: value[1],
+      name: value[0],
+    }));
+    setDaysAvailable(daysOptions);
+  }, []);
+
 
   return (
     <>
       <Dialog open={open} onClose={handleClose} style={{ zIndex: 9998 }}>
-        <DialogTitle>{item == null ? 'Nuevo Horario' : `${item.day}`}</DialogTitle>
+        <DialogTitle>{item == null ? 'Nuevo Horario' : `${item.days[0]}`}</DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
             <Grid container>
               <Grid item xs={12} sm={4} sx={{ padding: '5px' }}>
                 <ComponentSelectPicker
+                  isMultiple
                   label={'Día'}
-                  value={dayKey}
-                  handleSelect={(value: keyof typeof DayOfWeek) =>
-                    onValueChange('day', DayOfWeek[value])
-                  }
-                  options={dayOptions}
-                  error={!!dayValid && formSubmitted}
-                  helperText={formSubmitted ? dayValid : ''}
+                  value={days}
+                  handleSelect={(value: String) => onValueChange('days', value)}
+                  options={daysAvailable}
+                  error={!!daysValid && formSubmitted}
+                  helperText={formSubmitted ? daysValid : ''}
                 />
               </Grid>
               <Grid item xs={12} sm={4} sx={{ padding: '5px' }}>

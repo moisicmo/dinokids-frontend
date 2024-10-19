@@ -23,10 +23,14 @@ interface createProps {
 
 const formFields: FormSpecialtyModel = {
   name: '',
+  numberSessions: 0,
+  estimatedSessionCost: 0.00,
 };
 
 const formValidations: FormSpecialtyValidations = {
   name: [(value) => value.length >= 1, 'Debe ingresar el nombre'],
+  numberSessions: [(value) => value > 0, 'Debe ingresar el número de sesiones'],
+  estimatedSessionCost: [(value) => value > 0.00, 'Debe ingresar el costo por sesión'],
 };
 
 export const SpecialtyCreate = (props: createProps) => {
@@ -36,10 +40,14 @@ export const SpecialtyCreate = (props: createProps) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const {
     name,
+    numberSessions,
+    estimatedSessionCost,
     onInputChange,
     isFormValid,
     onResetForm,
     nameValid,
+    numberSessionsValid,
+    estimatedSessionCostValid,
   } = useForm(item ?? formFields, formValidations);
 
   const sendSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -49,10 +57,14 @@ export const SpecialtyCreate = (props: createProps) => {
     if (item == null) {
       await createSpecialty({
         name: name.trim(),
+        numberSessions: parseInt(numberSessions.trim()),
+        estimatedSessionCost: parseFloat(estimatedSessionCost.trim()),
       });
     } else {
       await updateSpecialty(item.id, {
         name: name.trim(),
+        numberSessions: parseInt(numberSessions.trim()),
+        estimatedSessionCost: parseFloat(estimatedSessionCost.trim()),
       });
     }
     handleClose();
@@ -76,6 +88,28 @@ export const SpecialtyCreate = (props: createProps) => {
                   onChange={onInputChange}
                   error={!!nameValid && formSubmitted}
                   helperText={formSubmitted ? nameValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Número de sesiones"
+                  name="numberSessions"
+                  value={numberSessions}
+                  onChange={onInputChange}
+                  error={!!numberSessionsValid && formSubmitted}
+                  helperText={formSubmitted ? numberSessionsValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Costo por sesión"
+                  name="estimatedSessionCost"
+                  value={estimatedSessionCost}
+                  onChange={onInputChange}
+                  error={!!estimatedSessionCostValid && formSubmitted}
+                  helperText={formSubmitted ? estimatedSessionCostValid : ''}
                 />
               </Grid>
             </Grid>

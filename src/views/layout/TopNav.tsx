@@ -9,8 +9,7 @@ const TOP_NAV_HEIGHT = 50;
 
 export const TopNav = ({ onNavOpen }: { onNavOpen: any }) => {
   const theme = useTheme();
-  const lgUp = useMediaQuery(theme.breakpoints.up('md'));
-
+  const lgUp = useMediaQuery(theme.breakpoints.up('lg'));
   const accountPopover = usePopover();
 
   return (

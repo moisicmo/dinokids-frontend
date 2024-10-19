@@ -15,7 +15,7 @@ import { DayOfWeek, ScheduleModel } from '@/models';
 import { useScheduleStore } from '@/hooks';
 import { ScheduleCreate } from '.';
 import esES from 'date-fns/locale/es';
-import { format, isSameHour } from 'date-fns';
+import { format } from 'date-fns';
 
 interface tableProps {
   roomId: number;
@@ -67,7 +67,7 @@ export const ScheduleTable = (props: tableProps) => {
   };
 
   const groupedSchedules = groupSchedulesByHourRange();
-  console.log(groupedSchedules)
+  // console.log(groupedSchedules)
   return (
     <>
       <Stack direction="row" justifyContent="end">
@@ -90,14 +90,20 @@ export const ScheduleTable = (props: tableProps) => {
             {groupedSchedules.map((range) => (
               <TableRow key={range.hourRange}>
                 <TableCell>{range.hourRange}</TableCell>
-                {days.map((day) => (
-                  <TableCell key={day} sx={{ fontWeight: 'bold' }}>
-                    {/* {
-                      range.schedules.filter((v) => v.day == DayOfWeek[day]).map(schedule => `${schedule.teacher.name} ${schedule.teacher.lastName}`)
-                        .join(', ')
-                    } */}
+                {days.map((day, i) => (
+                  <TableCell key={i} sx={{ fontWeight: 'bold' }}>
+                    {
+                      range.schedules.filter((v) => v.days.find((value) => value === DayOfWeek[day])).map((_, index) => (
+                        <ComponentButton
+                          key={`${i}-${index}`}
+                          text=" "
+                          onClick={() => { }}
+                        />
+                      ))
+                    }
                   </TableCell>
                 ))}
+
                 <TableCell align="right">
                   <Stack alignItems="center" direction="row" spacing={2}>
                     <IconButton
