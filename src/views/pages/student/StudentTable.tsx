@@ -111,7 +111,7 @@ export const StudentTable = (props: tableProps) => {
 
                   <TableCell>{student.email}</TableCell>
 
-              <TableCell>{`${format(new Date(student.birthdate), 'dd-MMMM-yyyy', { locale: esES })}`}</TableCell>
+                  <TableCell>{`${format(new Date(student.birthdate), 'dd-MMMM-yyyy', { locale: esES })}`}</TableCell>
                   <TableCell>{`${genderKey}`}</TableCell>
                   <TableCell>{student.school}</TableCell>
                   <TableCell>{`${student.grade}° ${educationLevelKey}`}</TableCell>

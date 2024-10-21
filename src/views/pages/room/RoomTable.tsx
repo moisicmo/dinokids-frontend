@@ -52,18 +52,18 @@ export const RoomTable = (props: tableProps) => {
   }, [rooms, page, rowsPerPage, query]);
 
   //modal schedule
-  const [roomId, setRoomId] = useState<number | null>(null);
+  const [room, setRoom] = useState<RoomModel | null>(null);
 
   return (
     <>
       {/* modal branch */}
-      {roomId && (
+      {room && (
         <ModalSelectComponent
           title="Horario:"
-          opendrawer={roomId!=null}
-          handleDrawer={() => setRoomId(null)}
+          opendrawer={room!=null}
+          handleDrawer={() => setRoom(null)}
         >
-          <ScheduleTable roomId={roomId} />
+          <ScheduleTable room={room} />
         </ModalSelectComponent>
       )}
       <Stack direction="row" justifyContent="space-between">
@@ -107,7 +107,7 @@ export const RoomTable = (props: tableProps) => {
                   {!stateSelect && (
                     <TableCell align="right">
                       <Stack alignItems="center" direction="row" spacing={2}>
-                        <ComponentButton text="Horario" onClick={() => setRoomId(room.id)} />
+                        <ComponentButton text="Horario" onClick={() => setRoom(room)} />
                         <IconButton onClick={() => handleEdit!(room)}>
                           <EditOutlined color="info" />
                         </IconButton>

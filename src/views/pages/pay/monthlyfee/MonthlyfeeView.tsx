@@ -13,7 +13,7 @@ export const MonthlyFeeView = () => {
   const [itemEdit, setItemEdit] = useState<MonthlyFeeModel | null>(null);
 
   /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
-  const handleDialog = useCallback((value:{state:boolean, pay:string}) => {
+  const handleDialog = useCallback((value: { state: boolean, pay: string }) => {
     if (!value) setItemEdit(null);
     setopenDialog(value.state);
     setselectpay(value.pay)
@@ -22,43 +22,45 @@ export const MonthlyFeeView = () => {
     <>
       <Stack direction="row" justifyContent="space-between">
         <Typography variant="h6">Pagos</Typography>
-        <ComponentButton
-          text="Pago Inscripcion"
-          onClick={() => handleDialog({state:true, pay:'inscription'})}
-          startIcon={
-            <SvgIcon fontSize="small">
-              <Add />
-            </SvgIcon>
-          }
-        />
-        <ComponentButton
-          text="Pago mensualidad"
-          onClick={() => handleDialog({state:true, pay:'month'})}
-          startIcon={
-            <SvgIcon fontSize="small">
-              <Add />
-            </SvgIcon>
-          }
-        />
+        <div>
+          <ComponentButton
+            text="Pago Inscripcion"
+            onClick={() => handleDialog({ state: true, pay: 'inscription' })}
+            startIcon={
+              <SvgIcon fontSize="small">
+                <Add />
+              </SvgIcon>
+            }
+          />
+          <ComponentButton
+            text="Pago mensualidad"
+            onClick={() => handleDialog({ state: true, pay: 'month' })}
+            startIcon={
+              <SvgIcon fontSize="small">
+                <Add />
+              </SvgIcon>
+            }
+          />
+        </div>
       </Stack>
-      
-       <MonthlyFeeTable
+
+      <MonthlyFeeTable
         handleEdit={(v) => {
           setItemEdit(v);
-          handleDialog({state:true, pay:''});
+          handleDialog({ state: true, pay: '' });
         }}
-      /> 
+      />
       {openDialog && selectpay == 'inscription' ? (
         <MonthlyFeeCreateInscription
           open={openDialog}
-          handleClose={() => handleDialog({state:false, pay:''})}
+          handleClose={() => handleDialog({ state: false, pay: '' })}
           item={itemEdit == null ? null : { ...itemEdit }}
         />
-      ): <MonthlyFeeCreateMonth
-      open={openDialog}
-      handleClose={() => handleDialog({state:false, pay:''})}
-      item={itemEdit == null ? null : { ...itemEdit }}
-    />}
+      ) : <MonthlyFeeCreateMonth
+        open={openDialog}
+        handleClose={() => handleDialog({ state: false, pay: '' })}
+        item={itemEdit == null ? null : { ...itemEdit }}
+      />}
     </>
   );
 };

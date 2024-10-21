@@ -1,3 +1,5 @@
+import { AssignmentSchedule } from ".";
+
 export enum DayOfWeek {
   lunes = 'MONDAY',
   martes = 'TUESDAY',
@@ -13,6 +15,7 @@ export interface ScheduleModel {
   days: DayOfWeek[];
   start: Date;
   end: Date;
+  assignmentSchedules:AssignmentSchedule[]
 }
 
 export interface FormScheduleModel {

@@ -1,13 +1,15 @@
 import { ComponentInput } from '@/components';
 import { useForm } from '@/hooks';
-import { FormPriceModel, FormPriceValidations, InscriptionModel } from '@/models';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { FormPriceModel, FormPriceValidations, InscriptionModel, InscriptionRequired, RoomModel } from '@/models';
+import { Box, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { FormEvent, useState } from 'react';
+import esES from 'date-fns/locale/es';
+import { format } from "date-fns";
 
 interface createProps {
   item: InscriptionModel | null;
-  dataInscription: any;
-  submitForm: (data: Object) => void;
+  dataInscription: InscriptionRequired;
+  submitForm: (data: InscriptionRequired) => void;
   changeStep: (step: number) => void;
 }
 const formFields: FormPriceModel = {
@@ -33,18 +35,64 @@ export const StepSummary = (props: createProps) => {
     setFormSubmitted(true);
     if (!isFormValid) return;
     submitForm({
+      ...dataInscription,
       inscription: parseInt(inscription),
       month: parseInt(month),
     });
     // onResetForm();
   };
+  const calculateAge = (birthdate: Date) => {
+    const birthDate = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    // Si no ha cumplido años aún este año, restamos uno
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  };
 
   return (
     <div>
-      <Typography>{`Estudiante : ${dataInscription.student.name} ${dataInscription.student.lastName}`}</Typography>
-      {dataInscription.student.tutors.map((tutor: any) => {
-        return <Typography key={tutor.id}>{`Tutor : ${tutor.name} ${tutor.lastName}`}</Typography>
+      <Typography>{`Estudiante : ${dataInscription.student!.name} ${dataInscription.student!.lastName}`}</Typography>
+      <Typography>{`Edad: ${calculateAge(dataInscription.student!.birthdate)} años`}</Typography>
+      <Typography>{`Tutor(es):`}</Typography>
+      {dataInscription.student!.tutors.map((tutor: any) => {
+        return <li key={tutor.id}>{`${tutor.name} ${tutor.lastName}`}</li>
       })}
+
+      <Typography>{`Aluas:`}</Typography>
+      <TableContainer>
+        <Table sx={{ minWidth: 350 }} size="small">
+          <TableHead>
+            <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
+              <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Especialidad</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Profesor</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Horario</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataInscription.rooms.map((room: RoomModel) => (
+              <TableRow key={room.id}>
+                <TableCell>{room.name}</TableCell>
+                <TableCell>{room.specialty.name}</TableCell>
+                <TableCell>{room.teacher.name}</TableCell>
+                <TableCell>
+                  <ul>
+                    {room.eventSelects.map((item: any) => (
+                      <li key={item.id}>{`${item.day} ${format(new Date(item.start), 'HH:mm', { locale: esES })} - ${format(new Date(item.end), 'HH:mm', { locale: esES })}`}</li>
+                    ))}
+                  </ul>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <form onSubmit={sendSubmit}>
         <Grid container>
           <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>

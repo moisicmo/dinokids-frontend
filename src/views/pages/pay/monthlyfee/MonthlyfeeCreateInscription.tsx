@@ -61,7 +61,6 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
     amount,
     buyerName,
     buyerNIT,
-
     transactionNumber,
     onInputChange,
     isFormValid,
@@ -83,11 +82,11 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
   };
 
   const sendSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    console.log("//////// SEND SUBMIT INSCRIPTIONS MONTHLY")
-    console.log({ inscriptionsId: inscriptions.id,
-      amount: parseInt(amount),
-      payMethod: valueradio,
-      transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),})
+    // console.log("//////// SEND SUBMIT INSCRIPTIONS MONTHLY")
+    // console.log({ inscriptionsId: inscriptions.id,
+    //   amount: parseInt(amount),
+    //   payMethod: valueradio,
+    //   transactionNumber: valueradio =='CASH'? transactionCashNumber : transactionNumber.trim(),})
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
@@ -125,16 +124,16 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
         <ModalSelectComponent
           stateSelect={true}
           stateMultiple={false}
-          title="Inscriptions:"
+          title="Inscripciones:"
           opendrawer={modalInscriptions}
           handleDrawer={handleModalInscriptions}
         >
           <InscriptionTable
             stateSelect={true}
             limitInit={5}
-            itemSelect={(v: InscriptionModel) => {
-              if (inscriptions == null || inscriptions.id != v.id) {
-                onValueChange('inscriptions', v);
+            itemSelect={(inscription: InscriptionModel) => {
+              if (inscriptions == null || inscriptions.id != inscription.id) {
+                onValueChange('inscriptions', inscription);
                 handleModalInscriptions(false);
               }
             }}
@@ -144,13 +143,13 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
       )}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {item == null ? 'Pago Inscripcion' : `${item.id}`}
+          {item == null ? 'Pago Inscripción' : `${item.id}`}
         </DialogTitle>
         <Grid container spacing={2}>
         <Grid item xs={12}  sx={{ padding: '5px', margin:'10px' }}>
                 <ComponentSelect
                   label={inscriptions != null ? 'Inscripcion' : ''}
-                  title={inscriptions != null ? inscriptions.id : 'Inscripcion'}
+                  title={inscriptions != null ? `${inscriptions.student.name} ${inscriptions.student.lastName}` : 'Inscripcion'}
                   onPressed={() => handleModalInscriptions(true)}
                   error={!!inscriptionsValid && formSubmitted}
                   helperText={formSubmitted ? inscriptionsValid : ''}
@@ -186,7 +185,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
               <TextField
                 disabled
                 id="outlined-disabled"
-                label="inscripcion"
+                label="inscripción"
                 defaultValue={`${inscriptions.price.inscription}`}
                 variant="standard"
               />
@@ -249,7 +248,7 @@ export const MonthlyFeeCreateInscription = (props: createProps) => {
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="number"
-                  label="amount"
+                  label="Monto"
                   name="amount"
                   value={amount}
                   onChange={onInputChange}

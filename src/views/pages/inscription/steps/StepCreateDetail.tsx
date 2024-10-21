@@ -1,6 +1,6 @@
 import { ComponentSelect, ModalSelectComponent } from '@/components';
 import { useForm } from '@/hooks';
-import { FormInscriptionModel, FormInscriptionValidations, InscriptionModel, RoomModel } from '@/models';
+import { FormInscriptionModel, FormInscriptionValidations, InscriptionModel, InscriptionRequired, RoomModel } from '@/models';
 import { Box, Button, Grid } from '@mui/material';
 import { FormEvent, useCallback, useState } from 'react';
 import { StudentTable } from '../../student';
@@ -9,7 +9,7 @@ import { SpecialtyTable } from '../../specialty';
 
 interface createProps {
   item: InscriptionModel | null;
-  submitForm: (data: Object) => void;
+  submitForm: (data: InscriptionRequired) => void;
 }
 
 const formFields: FormInscriptionModel = {
@@ -42,7 +42,7 @@ export const StepCreateDetail = (props: createProps) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
-    submitForm({ student, rooms });
+    submitForm({ student, branch, rooms, inscription: 0, month: 0 });
     // onResetForm();
   };
 
@@ -119,14 +119,13 @@ export const StepCreateDetail = (props: createProps) => {
           handleDrawer={handleModalSpecialty}
         >
           <SpecialtyTable
-            itemSelect={(v) => {
-              console.log(v)
-              if (rooms.map((e: RoomModel) => e.id).includes(v.id)) {
+            itemSelect={(room) => {
+              if (rooms.map((e: RoomModel) => e.id).includes(room.id)) {
                 onValueChange('rooms', [
-                  ...rooms.filter((e: RoomModel) => e.id != v.id),
+                  ...rooms.filter((e: RoomModel) => e.id != room.id),
                 ]);
               } else {
-                onValueChange('rooms', [...rooms, v]);
+                onValueChange('rooms', [...rooms, { ...room, eventSelects: [] }]);
               }
             }}
             items={rooms.map((e: RoomModel) => e.id)}

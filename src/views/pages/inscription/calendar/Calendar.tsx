@@ -1,11 +1,11 @@
 import { getMessagesES, localizer } from "@/helpers";
 import { CalendarEvent, CustomHeader } from ".";
-import { Calendar, SlotInfo, Views } from 'react-big-calendar';
+import { Calendar, SlotInfo,Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-// import './styles.css';
-import { useScheduleStore } from "@/hooks";
-import { DayOfWeek, RoomModel, ScheduleModel } from "@/models";
-import { useCallback } from 'react';
+import { useAlertStore, useScheduleStore } from "@/hooks";
+import { AssignmentSchedule, DayOfWeek, RoomModel, ScheduleModel } from "@/models";
+import { useCallback, useEffect } from 'react';
+
 
 export interface EventsCalendarModel {
   id: number;
@@ -26,8 +26,8 @@ interface Props {
 export const CalendarComponent = (props: Props) => {
   const { onSelect, eventSelects,room } = props;
   
-  const { schedules = [] } = useScheduleStore();
-
+  const { schedules = [], getSchedules } = useScheduleStore();
+  const { showError } = useAlertStore();
   const dayMap = {
     MONDAY: 1,
     TUESDAY: 2,
@@ -38,49 +38,57 @@ export const CalendarComponent = (props: Props) => {
     SUNDAY: 7
   };
 
-  const setEvent = () => {
-    const events: any[] = [];
-    const currentDate = new Date(); // Fecha actual para saber la semana en curso
+  useEffect(() => {
+    getSchedules(room.id);
+  }, []);
+  
 
-    let i = 0;
+  const setEvent = () => {
+    const events:any = [];
+    const currentDate = new Date(); // Fecha actual para saber la semana en curso
+  
     schedules.forEach((element: ScheduleModel) => {
       element.days.forEach((day: DayOfWeek) => {
         // Obtener el número correspondiente al día
         const dayOfWeek = dayMap[day];
-
+  
         // Encontrar la fecha del próximo día específico de esta semana
         const date = new Date(currentDate);
         const diff = dayOfWeek - date.getDay();
-        date.setDate(date.getDate() + diff);
-
+        date.setDate(date.getDate() + diff - 7);
+  
         // Crear los eventos con la hora específica
         const start = new Date(date);
         const end = new Date(date);
-
+  
         // Asignar las horas de inicio y fin al evento
         const startTime = new Date(element.start);
         const endTime = new Date(element.end);
-
+  
         // Resta 4 horas
         start.setHours(startTime.getUTCHours() - 4, startTime.getUTCMinutes(), 0, 0);
         end.setHours(endTime.getUTCHours() - 4, endTime.getUTCMinutes(), 0, 0);
-        
-        // Agregar el evento al calendario
+  
+        // Buscar todos los estudiantes para el día actual
+        const studentsForDay = element.assignmentSchedules
+          .filter((assignmentSchedule) => assignmentSchedule.day === day)
+          .map((assignmentSchedule) => assignmentSchedule.assignmentRoomEntity.inscription.student.name);
+  
         events.push({
-          id: `${room.id}-${i}`,
-          idPosition: i,
-          day: element.days[i],
-          title: `disponible`,
+          id: `${room.id}-${events.length}`, // Usa events.length para generar un ID único
+          day: day,
+          // title: `Disponible ${room.capacity - studentsForDay.length}`,
+          title: `${studentsForDay.join(',')}`,
           start: start,
           end: end,
           data: element,
         });
-        i++
       });
     });
-
+  
     return events;
   };
+  
 
   const eventPropGetter = useCallback(
     (event: any) => {
@@ -111,10 +119,20 @@ export const CalendarComponent = (props: Props) => {
       selectable={true}
       toolbar={false}
       events={setEvent() ?? []}
-      onSelectSlot={(data)=>onSelect(data)}
-      onSelectEvent={(data)=>onSelect(data)}
+      onSelectEvent={(data) => {
+        const event = data;
+        const studentsForDay = event.data.assignmentSchedules
+          .filter((assignmentSchedule:AssignmentSchedule) => assignmentSchedule.day === event.day)
+          .map((assignmentSchedule:AssignmentSchedule) => assignmentSchedule.assignmentRoomEntity.inscription.student.name);
+        
+        // Verifica si hay disponibilidad
+        if (room.capacity > studentsForDay.length) {
+          return onSelect(data); // Solo llama onSelect si hay disponibilidad
+        }
+        showError('Oops', 'No hay disponibilidad para este horario');
+      }}
       style={{ height: '400px', cursor: 'pointer', width: '100%' }}
-
     />
-  )
+  );
+  
 }

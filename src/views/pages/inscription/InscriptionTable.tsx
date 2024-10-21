@@ -34,7 +34,6 @@ export const InscriptionTable = (props: tableProps) => {
     getInscriptions()
   }, []);
 
-  console.log("inscriptions",inscriptions)
   useEffect(() => {
     const filtered = inscriptions.filter((e: InscriptionModel) =>
       e.student.name.toLowerCase().includes(query.toLowerCase())
@@ -59,7 +58,6 @@ export const InscriptionTable = (props: tableProps) => {
           <TableHead>
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
               {stateSelect && <TableCell />}
-              <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre y apellido</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Inscripción</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Mensualidad</TableCell>
@@ -81,20 +79,17 @@ export const InscriptionTable = (props: tableProps) => {
                       />
                     </TableCell>
                   }
-                  <TableCell>{inscription.student.name}</TableCell>
                   <TableCell>{`${inscription.student.name} ${inscription.student.lastName}`}</TableCell>
                   <TableCell>{`Bs ${inscription.price.inscription}`}</TableCell>
                   <TableCell>{`Bs ${inscription.price.month}`}</TableCell>
                   <TableCell>
-                    <ul>
-                      {inscription.rooms.map((room) => (
-                        <li key={room.id}>
-                          {`${room.name} - ${room.specialty.name}`}
+                      {inscription.assignmentRooms.map((assignmentRoom) => (
+                        <li key={assignmentRoom.id}>
+                          {`${assignmentRoom.room.name} - ${assignmentRoom.room.specialty.name}`}
                         </li>
                       ))}
-                    </ul>
                   </TableCell>
-                      <TableCell>{inscription.rooms[0].branch.name}</TableCell>
+                      <TableCell>{inscription.assignmentRooms[0].room.branch.name}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack

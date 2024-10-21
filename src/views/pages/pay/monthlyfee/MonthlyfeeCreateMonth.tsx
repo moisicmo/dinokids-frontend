@@ -184,7 +184,7 @@ export const MonthlyFeeCreateMonth = (props: createProps) => {
           <Grid item xs={12} sm={6} sx={{ padding: '5px', margin: '10px' }}>
             <ComponentSelect
               label={inscriptions != null ? 'Inscripcion' : ''}
-              title={inscriptions != null ? inscriptions.id : 'Inscripcion'}
+              title={inscriptions != null ? `${inscriptions.student.name} ${inscriptions.student.lastName}` : 'Inscripcion'}
               onPressed={() => handleModalInscriptions(true)}
               error={!!inscriptionsValid && formSubmitted}
               helperText={formSubmitted ? inscriptionsValid : ''}

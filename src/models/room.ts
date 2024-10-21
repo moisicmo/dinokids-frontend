@@ -8,15 +8,17 @@ export interface RoomModel {
   branch: BranchModel;
   teacher: TeacherModel;
   specialty: SpecialtyModel;
+  eventSelects: any[];
 }
+
 
 export interface FormRoomModel {
   name: string;
   capacity: number,
   rangeYears: number[],
-  branch: BranchModel|null,
-  teacher: TeacherModel|null,
-  specialty: SpecialtyModel|null,
+  branch: BranchModel | null,
+  teacher: TeacherModel | null,
+  specialty: SpecialtyModel | null,
 }
 
 export interface FormRoomValidations {

@@ -1,4 +1,4 @@
-import { InscriptionModel } from '@/models';
+import { InscriptionModel, InscriptionRequired } from '@/models';
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { StepCreateDetail, StepSummary } from '.';
 import { useInscriptionStore } from '@/hooks';
 import { StepAsignSchedule } from './steps/StepAsignSchedule';
-import { SlotInfo } from 'react-big-calendar';
+// import { SlotInfo } from 'react-big-calendar';
 
 interface createProps {
   open: boolean;
@@ -27,22 +27,11 @@ export const InscriptionCreate = (props: createProps) => {
   const { open, handleClose, item } = props;
 
   const [activeStep, setActiveStep] = useState(0);
-  const [dataInscription, setDataInscription] = useState<Object | null>({});
-  const [eventSelects, setEventSelects] = useState<SlotInfo[]>([]);
-
+  const [dataInscription, setDataInscription] = useState<InscriptionRequired | null>();
   const { createInscription, updateInscription } = useInscriptionStore();
 
   const changeStep = (step: number) => {
     setActiveStep((prevActiveStep) => prevActiveStep + step);
-  };
-
-  const handleSelectEvent = (data: SlotInfo) => {
-    var newData :any = {...data};
-    if (eventSelects.map((e:any)=>e.id).includes(newData.id)) {
-      setEventSelects([...eventSelects.filter((e:any) => e.id != newData.id),]); // Deseleccionar el evento
-    } else {
-      setEventSelects([...eventSelects,data]); // Seleccionar un nuevo evento
-    }
   };
 
   const renderContent = (index: number) => {
@@ -51,9 +40,9 @@ export const InscriptionCreate = (props: createProps) => {
         return (
           <StepCreateDetail
             item={props.item}
-            submitForm={(data: Object) => {
+            submitForm={(data: InscriptionRequired) => {
               console.log(data);
-              setDataInscription({...data,...dataInscription});
+              setDataInscription(data);
               changeStep(1);
             }}
           />
@@ -62,25 +51,25 @@ export const InscriptionCreate = (props: createProps) => {
         return (
           <StepAsignSchedule
             item={props.item}
-            dataInscription={dataInscription}
-            submitForm={(data: Object) => {
+            dataInscription={dataInscription!}
+            submitForm={(data: InscriptionRequired) => {
               console.log(data);
-              setDataInscription({...data,...dataInscription});
+              setDataInscription(data);
               changeStep(1);
             }}
             changeStep={(step)=>changeStep(step)}
-            eventSelects={eventSelects}
-            onSelect={handleSelectEvent}
+            // eventSelects={eventSelects}
+            // onSelect={handleSelectEvent}
           />
         );
       case 2:
         return (
           <StepSummary
             item={props.item}
-            dataInscription={dataInscription}
-            submitForm={(data: Object) => {
-              setDataInscription({...data,...dataInscription});
-              submitInscription();
+            dataInscription={dataInscription!}
+            submitForm={(data: InscriptionRequired) => {
+              setDataInscription(data);
+              submitInscription(data);
             }}
             changeStep={(step)=>changeStep(step)}
           />
@@ -90,12 +79,12 @@ export const InscriptionCreate = (props: createProps) => {
     }
   };
 
-  const submitInscription = async () => {
-    console.log(dataInscription);
+  const submitInscription = async (data:InscriptionRequired) => {
     if (item == null) {
-      await createInscription({ ...dataInscription });
+      await createInscription({ ...data });
+      handleClose();
     } else {
-      await updateInscription(item.id, { ...dataInscription });
+      await updateInscription(item.id, { ...data });
     }
   };
 
